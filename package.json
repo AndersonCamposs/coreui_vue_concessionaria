@@ -26,6 +26,7 @@
     "@coreui/vue": "^5.4.1",
     "@coreui/vue-chartjs": "^3.0.0",
     "@popperjs/core": "^2.11.8",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.6",
     "pinia": "^2.2.6",
     "simplebar-vue": "^2.3.5",

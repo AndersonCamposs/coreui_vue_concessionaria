@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CInputGroup } from '@coreui/vue';
+import api from "@/services/api.js";
 
 const name = ref('');
 const cpf = ref('');
@@ -20,24 +21,30 @@ const formatcpf = () => {
   }
 }
 
-const onSubmit = () => {
-  let data = {
-    name: name.value,
-    cpf: cpf.value,
-    email: email.value,
-    bornDate: bornDate.value
-  }
+const onSubmit = async () => {
+  try {
+    const data = {
+      name: name.value,
+      cpf: cpf.value,
+      email: email.value,
+      bornDate: bornDate.value
+    }
 
-  console.log(JSON.stringify(data));
-  clearFields();
+    const response = await api.post("/customer", data);
+    alert("Cliente cadastrado com sucesso.");
+    console.log(response);
+
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-const clearFields = () => {
+/*const clearFields = () => {
   name.value = '';
   cpf.value = '';
   email.value = '';
   bornDate.value = '';
-}
+}*/
 </script>
 
 <template>
