@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
@@ -20,7 +20,6 @@ const route = useRoute();
 const modalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
-
 const name = ref('');
 const cpf = ref('');
 const email = ref('');
@@ -46,7 +45,6 @@ const onSubmit = async () => {
       bornDate: bornDate.value,
     };
 
-    console.log(data);
     if (customerId.value) {
       const response = await api.put(`/customer/${customerId.value}`, data);
       alert('Cliente atualizado com sucesso.');
@@ -63,16 +61,16 @@ const onSubmit = async () => {
   }
 };
 
-onMounted(async () => {
+const loadCustomerData = async (newId) => {
   if (customerId.value) {
     try {
-      const response = await api.get(`/customer/${customerId.value}`);
+      const response = await api.get(`/customer/${newId}`);
       fillFields(response.data);
     } catch (e) {
       console.log(e.message);
     }
   }
-});
+};
 
 const deleteCustomer = async () => {
   if (customerId.value) {
@@ -93,12 +91,25 @@ const fillFields = (data) => {
   bornDate.value = data.bornDate;
 };
 
-/*const clearFields = () => {
+const clearFields = () => {
   name.value = '';
   cpf.value = '';
   email.value = '';
   bornDate.value = '';
-}*/
+};
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    customerId.value = newId || null;
+    if (!newId) {
+      clearFields();
+    } else {
+      loadCustomerData(newId);
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -173,6 +184,7 @@ const fillFields = (data) => {
               {{ customerId ? 'Atualizar' : 'Salvar' }}
             </CButton>
             <CButton
+              v-if="customerId"
               color="danger"
               class="me-4"
               @click="
@@ -198,7 +210,10 @@ const fillFields = (data) => {
           <CModalTitle>Confirmação de exclusão</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          Tem certeza que deseja excluir o cliente {{ name }}, de CPF: {{ cpf }}?
+          Tem certeza que deseja excluir o cliente
+          <strong>{{ name }}</strong>
+          ,de CPF: <strong>{{ cpf }}</strong
+          >?
         </CModalBody>
         <CModalFooter>
           <CButton
