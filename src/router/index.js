@@ -29,6 +29,11 @@ const routes = [
             name: 'AddEdit',
             component: () => import('@/views/customers/AddEditCustomer.vue'),
           },
+          {
+            path: "/customer/list",
+            name: "list",
+            component: () => import("@/views/customers/ListCustomers.vue")
+          }
         ]
 
       },
