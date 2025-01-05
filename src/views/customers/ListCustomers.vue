@@ -2,10 +2,10 @@
 import { ref, onMounted } from 'vue';
 import api from '@/services/api.js';
 import CustomerRow from '@/components/customers/CustomerRow.vue';
-import { CTableFoot } from '@coreui/vue';
+import { CAlert, CTableFoot } from '@coreui/vue';
 import { cilSearch } from '@coreui/icons';
 
-const customerList = ref();
+const customerList = ref([]);
 
 onMounted(async () => {
   try {
@@ -33,7 +33,11 @@ onMounted(async () => {
       </CInputGroup>
     </div>
   </div>
-  <CTable striped>
+  <CAlert color="warning" v-if="customerList.length === 0" class="text-center">
+    Não existem registros.
+    Adicione novos clientes para que eles apareçam aqui.
+  </CAlert>
+  <CTable striped v-else>
     <CTableHead>
       <CTableRow>
         <CTableHeaderCell scope="col">ID</CTableHeaderCell>
