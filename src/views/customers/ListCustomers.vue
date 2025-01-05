@@ -1,21 +1,38 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import api from '@/services/api.js'
-import CustomerRow from '@/components/customers/CustomerRow.vue'
+import { ref, onMounted } from 'vue';
+import api from '@/services/api.js';
+import CustomerRow from '@/components/customers/CustomerRow.vue';
+import { CTableFoot } from '@coreui/vue';
+import { cilSearch } from '@coreui/icons';
 
-const customerList = ref()
+const customerList = ref();
 
 onMounted(async () => {
   try {
-    const response = await api.get('/customer')
-    customerList.value = response.data
+    const response = await api.get('/customer');
+    customerList.value = response.data;
   } catch (e) {
-    console.log(e.message)
+    console.log(e.message);
   }
-})
+});
 </script>
 
 <template>
+  <div class="row">
+    <div class="col-4">
+      <CInputGroup class="mb-3">
+        <CInputGroupText id="basic-addon1"><CIcon :icon="cilSearch" /></CInputGroupText>
+        <CFormInput
+          type="text"
+          required
+          placeholder="Buscar por nome"
+          aria-label="Burcar por nome"
+          aria-describedby="basic-addon1"
+          v-on:input="() => console.log('ok')"
+        />
+      </CInputGroup>
+    </div>
+  </div>
   <CTable striped>
     <CTableHead>
       <CTableRow>
