@@ -3,11 +3,21 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
-import { CButton, CForm, CInputGroup } from '@coreui/vue';
+import {
+  CButton,
+  CForm,
+  CInputGroup,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+} from '@coreui/vue';
 import api from '@/services/api.js';
 
 const router = useRouter();
 const route = useRoute();
+const modalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
 
@@ -162,10 +172,48 @@ const fillFields = (data) => {
             <CButton color="primary" type="submit" class="me-4">
               {{ customerId ? 'Atualizar' : 'Salvar' }}
             </CButton>
-            <CButton color="danger" class="me-4" @click="deleteCustomer">Deletar</CButton>
+            <CButton
+              color="danger"
+              class="me-4"
+              @click="
+                () => {
+                  modalVisible = true;
+                }
+              "
+              >Deletar</CButton
+            >
           </div>
         </div>
       </CForm>
+      <CModal
+        :visible="modalVisible"
+        @close="
+          () => {
+            modalVisible = false;
+          }
+        "
+        aria-labelledby="Modal de exclusão"
+      >
+        <CModalHeader>
+          <CModalTitle>Confirmação de exclusão</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          Tem certeza que deseja excluir o cliente {{ name }}, de CPF: {{ cpf }}?
+        </CModalBody>
+        <CModalFooter>
+          <CButton
+            color="secondary"
+            @click="
+              () => {
+                modalVisible = false;
+              }
+            "
+          >
+            Fechar
+          </CButton>
+          <CButton color="primary" @click="deleteCustomer">Confirmar</CButton>
+        </CModalFooter>
+      </CModal>
     </CCardBody>
   </CCard>
 </template>
