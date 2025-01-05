@@ -1,7 +1,7 @@
-import { h, resolveComponent } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { h, resolveComponent } from 'vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-import DefaultLayout from '@/layouts/DefaultLayout'
+import DefaultLayout from '@/layouts/DefaultLayout';
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
         name: 'Customer',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/customer/addEdit',
@@ -63,7 +63,7 @@ const routes = [
         name: 'Base',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/base/breadcrumbs',
@@ -150,7 +150,7 @@ const routes = [
         name: '_Buttons',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/buttons/standard-buttons',
@@ -177,7 +177,7 @@ const routes = [
         name: 'Forms',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/forms/form-control',
@@ -234,7 +234,7 @@ const routes = [
         name: 'Icons',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/icons/coreui-icons',
@@ -261,7 +261,7 @@ const routes = [
         name: 'Notifications',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/notifications/alerts',
@@ -301,7 +301,7 @@ const routes = [
     name: 'Pages',
     component: {
       render() {
-        return h(resolveComponent('router-view'))
+        return h(resolveComponent('router-view'));
       },
     },
     children: [
@@ -327,15 +327,15 @@ const routes = [
       },
     ],
   },
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     // always scroll to top
-    return { top: 0 }
+    return { top: 0 };
   },
-})
+});
 
-export default router
+export default router;
