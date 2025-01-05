@@ -4,9 +4,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 
 const routes = [
-
-
-
   {
     path: '/',
     name: 'Home',
@@ -20,22 +17,21 @@ const routes = [
         component: {
           render() {
             return h(resolveComponent('router-view'))
-          }
+          },
         },
         redirect: '/customer/addEdit',
         children: [
           {
-            path: '/customer/addEdit',
-            name: 'AddEdit',
+            path: '/customer/addEdit/:id?',
+            name: 'CustomerAddEdit',
             component: () => import('@/views/customers/AddEditCustomer.vue'),
           },
           {
-            path: "/customer/list",
-            name: "list",
-            component: () => import("@/views/customers/ListCustomers.vue")
-          }
-        ]
-
+            path: '/customer/list',
+            name: 'CustomerList',
+            component: () => import('@/views/customers/ListCustomers.vue'),
+          },
+        ],
       },
 
       {
@@ -45,9 +41,7 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
-          ),
+          import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'),
       },
       {
         path: '/theme',

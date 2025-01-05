@@ -24,6 +24,7 @@ onMounted(async () => {
         <CTableHeaderCell scope="col">CPF</CTableHeaderCell>
         <CTableHeaderCell scope="col">E-mail</CTableHeaderCell>
         <CTableHeaderCell scope="col">Data de Nascimento</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Ações</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
     <CTableBody v-for="customer in customerList" v-bind:key="customer.id">
