@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import api from '@/services/api.js';
-import CustomerRow from '@/components/customers/CustomerRow.vue';
-import { CAlert, CTableFoot } from '@coreui/vue';
 import { cilSearch } from '@coreui/icons';
-import { list } from 'postcss';
+import CustomerTable from '../../components/customers/CustomerTable.vue';
+
 
 const customerList = ref([]);
 const inputSearch = ref('');
@@ -49,22 +48,5 @@ watch(inputSearch, async (newValSearch) => {
       </CInputGroup>
     </div>
   </div>
-  <CAlert color="warning" v-if="customerList.length === 0" class="text-center">
-    Não existem registros. Adicione novos clientes para que eles apareçam aqui.
-  </CAlert>
-  <CTable striped v-else>
-    <CTableHead>
-      <CTableRow>
-        <CTableHeaderCell scope="col">ID</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Nome</CTableHeaderCell>
-        <CTableHeaderCell scope="col">CPF</CTableHeaderCell>
-        <CTableHeaderCell scope="col">E-mail</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Data de Nascimento</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Ações</CTableHeaderCell>
-      </CTableRow>
-    </CTableHead>
-    <CTableBody v-for="customer in customerList" v-bind:key="customer.id">
-      <CustomerRow :customer="customer" />
-    </CTableBody>
-  </CTable>
+  <CustomerTable :customerList="customerList"/>
 </template>
