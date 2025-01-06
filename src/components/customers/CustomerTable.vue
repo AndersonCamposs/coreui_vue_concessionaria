@@ -4,7 +4,7 @@ import CIcon from '@coreui/icons-vue'
 import { CButton, CTableDataCell } from '@coreui/vue'
 import { defineProps } from 'vue'
 
-const { customerList } = defineProps(['customer'])
+const { customerList } = defineProps(['customerList'])
 </script>
 
 <template>
