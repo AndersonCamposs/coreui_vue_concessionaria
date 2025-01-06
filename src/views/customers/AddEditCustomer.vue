@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
@@ -14,6 +14,10 @@ import {
   CModalTitle,
 } from '@coreui/vue';
 import api from '@/services/api.js';
+import ErrorMessage from '@/components/ErrorMessage.vue';
+
+const error = ref(false);
+const errorMessage = ref('');
 
 const router = useRouter();
 const route = useRoute();
@@ -25,15 +29,16 @@ const cpf = ref('');
 const email = ref('');
 const bornDate = ref('');
 
-const formatcpf = () => {
-  let inputLength = cpf.value.length;
-  if (inputLength === 3) {
-    cpf.value = cpf.value + '.';
-  } else if (inputLength === 7) {
-    cpf.value = cpf.value + '.';
-  } else if (inputLength === 11) {
-    cpf.value = cpf.value + '-';
-  }
+const formatcpf = (event) => {
+    let value = event.target.value;
+
+    value = value.replace(/\D/g, '');
+
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+
+    event.target.value = value;
 };
 
 const onSubmit = async () => {
@@ -57,7 +62,8 @@ const onSubmit = async () => {
 
     router.push({ name: 'CustomerList' });
   } catch (e) {
-    console.log(e);
+    const message = e.response.data.errors[0];
+    showError(message);
   }
 };
 
@@ -97,6 +103,15 @@ const clearFields = () => {
   email.value = '';
   bornDate.value = '';
 };
+
+
+const showError = (message) => {
+    errorMessage.value = message;
+    error.value = true;
+    setTimeout(() => {
+        error.value = false;
+    }, 3000)
+}
 
 watch(
   () => route.params.id,
@@ -144,7 +159,7 @@ watch(
                 aria-label="CPF"
                 aria-describedby="basic-addon1"
                 maxlength="14"
-                @keydown="formatcpf"
+                @input="(event) => formatcpf(event)"
                 v-model="cpf"
               />
             </CInputGroup>
@@ -229,6 +244,7 @@ watch(
           <CButton color="primary" @click="deleteCustomer">Confirmar</CButton>
         </CModalFooter>
       </CModal>
+      <ErrorMessage :message="errorMessage" v-if="error"/>
     </CCardBody>
   </CCard>
 </template>
