@@ -15,6 +15,7 @@ import {
 } from '@coreui/vue';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
+import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
 
 const error = ref(false);
 const errorMessage = ref('');
@@ -212,38 +213,7 @@ watch(
           </div>
         </div>
       </CForm>
-      <CModal
-        :visible="modalVisible"
-        @close="
-          () => {
-            modalVisible = false;
-          }
-        "
-        aria-labelledby="Modal de exclusão"
-      >
-        <CModalHeader>
-          <CModalTitle>Confirmação de exclusão</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          Tem certeza que deseja excluir o cliente
-          <strong>{{ name }}</strong>
-          ,de CPF: <strong>{{ cpf }}</strong
-          >?
-        </CModalBody>
-        <CModalFooter>
-          <CButton
-            color="secondary"
-            @click="
-              () => {
-                modalVisible = false;
-              }
-            "
-          >
-            Fechar
-          </CButton>
-          <CButton color="primary" @click="deleteCustomer">Confirmar</CButton>
-        </CModalFooter>
-      </CModal>
+      <ConfirmDeleteModal :visible="modalVisible" @confirm = "deleteCustomer" @close="modalVisible = false"/>
       <ErrorMessage :message="errorMessage" v-if="error"/>
     </CCardBody>
   </CCard>
