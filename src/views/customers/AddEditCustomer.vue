@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
@@ -16,6 +16,7 @@ import {
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
+import CustomerForm from '../../components/customers/CustomerForm.vue';
 
 const error = ref(false);
 const errorMessage = ref('');
@@ -25,6 +26,13 @@ const route = useRoute();
 const modalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
+const customer = reactive({
+    id: '',
+    name: '',
+    cpf: '',
+    email: '',
+    bornDate: ''
+})
 const name = ref('');
 const cpf = ref('');
 const email = ref('');
@@ -71,8 +79,13 @@ const onSubmit = async () => {
 const loadCustomerData = async (newId) => {
   if (customerId.value) {
     try {
-      const response = await api.get(`/customer/${newId}`);
-      fillFields(response.data);
+      const { data } = await api.get(`/customer/${newId}`);
+      fillFields(data);
+      customer.id = data.id;
+      customer.name = data.name;
+      customer.cpf = data.cpf;
+      customer.email = data.cpf;
+      customer.bornDate = data.cpf;
     } catch (e) {
       console.log(e.message);
     }
@@ -103,6 +116,11 @@ const clearFields = () => {
   cpf.value = '';
   email.value = '';
   bornDate.value = '';
+  customer.id = '';
+  customer.name = '';
+  customer.cpf = '';
+  customer.email = '';
+  customer.bornDate = '';
 };
 
 
@@ -117,6 +135,7 @@ const showError = (message) => {
 watch(
   () => route.params.id,
   (newId) => {
+
     customerId.value = newId || null;
     if (!newId) {
       clearFields();
@@ -213,6 +232,7 @@ watch(
           </div>
         </div>
       </CForm>
+      <CustomerForm :customer="customer" @show-delete-modal="modalVisible = true"/>
       <ConfirmDeleteModal :visible="modalVisible" @confirm = "deleteCustomer" @close="modalVisible = false"/>
       <ErrorMessage :message="errorMessage" v-if="error"/>
     </CCardBody>
