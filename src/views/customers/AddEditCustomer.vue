@@ -1,9 +1,6 @@
 <script setup>
 import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
-import CIcon from '@coreui/icons-vue';
-import { CButton, CForm, CInputGroup } from '@coreui/vue';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
@@ -24,22 +21,6 @@ const customer = reactive({
   email: '',
   bornDate: '',
 });
-const name = ref('');
-const cpf = ref('');
-const email = ref('');
-const bornDate = ref('');
-
-const formatcpf = (event) => {
-  let value = event.target.value;
-
-  value = value.replace(/\D/g, '');
-
-  value = value.replace(/(\d{3})(\d)/, '$1.$2');
-  value = value.replace(/(\d{3})(\d)/, '$1.$2');
-  value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-
-  event.target.value = value;
-};
 
 const onSubmit = async () => {
   try {
