@@ -1,9 +1,79 @@
 <script setup>
-import { cilTruck } from '@coreui/icons';
-import CIcon from '@coreui/icons-vue';
+import api from '@/services/api.js';
+import { CCard, CCardBody, CCardHeader } from '@coreui/vue';
+import BrandForm from '@/components/brands/BrandForm.vue';
+import { reactive, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import ShowImageModal from '../../components/ShowImageModal.vue';
+
+const router = useRouter();
+const route = useRoute();
+
+const brandId = ref(route.params.id || null);
+const brand = reactive({
+  id: '',
+  name: '',
+  image: '',
+});
+const imageModalVisible = ref(false);
+
+const onSubmit = async () => {
+  console.log('submit');
+};
+
+const loadBrandData = async (newId) => {
+  if (brandId.value) {
+    try {
+      const { data } = await api.get(`/brand/${newId}`);
+      fillFields(data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+};
+
+const fillFields = (data) => {
+  brand.id = data.id;
+  brand.name = data.name;
+  brand.image = data.image;
+};
+
+const clearFields = () => {
+  brand.id = '';
+  brand.name = '';
+  brand.image = '';
+};
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    brandId.value = newId || null;
+    if (!newId) {
+      clearFields();
+    } else {
+      loadBrandData(newId);
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
-  <p>OI</p>
-  <CIcon :icon="cilTruck" />
+  <CCard class="mb-4">
+    <CCardHeader>
+      <strong>Adicionar marca</strong> <small>Preencha os dados da marca</small>
+    </CCardHeader>
+    <CCardBody>
+      <BrandForm
+        :brand="brand"
+        @on-submit="onSubmit"
+        @show-image-modal="imageModalVisible = true"
+      />
+      <ShowImageModal
+        :imageUrl="brand.image"
+        :visible="imageModalVisible"
+        @close="imageModalVisible = false"
+      />
+    </CCardBody>
+  </CCard>
 </template>

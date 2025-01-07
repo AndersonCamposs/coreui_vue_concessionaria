@@ -1,23 +1,23 @@
 <script setup>
-import { defineEmits } from 'vue';
+import { mergeAttributes } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { defineEmits, defineProps } from 'vue';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-const { visible } = defineProps(['visible']);
+const { visible, imageUrl } = defineProps(['visible', 'imageUrl']);
 
 const emit = defineEmits(['close', 'confirm']);
 
-const onConfirm = () => emit('confirm');
 const onClose = () => emit('close');
 </script>
 
 <template>
   <CModal :visible="visible" @close="onClose" aria-labelledby="Modal de exclusão">
     <CModalHeader>
-      <CModalTitle>Confirmação de exclusão</CModalTitle>
+      <CModalTitle>Imagem da marca</CModalTitle>
     </CModalHeader>
-    <CModalBody> Tem certeza que deseja excluir o registro selecionado? </CModalBody>
+    <img :src="BASE_URL + imageUrl" alt="Imagem da marca do carro" style="" />
     <CModalFooter>
       <CButton color="secondary" @click="onClose"> Fechar </CButton>
-      <CButton color="primary" @click="onConfirm()">Confirmar</CButton>
     </CModalFooter>
   </CModal>
 </template>
