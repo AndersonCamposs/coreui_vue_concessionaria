@@ -1,4 +1,4 @@
-import { h, resolveComponent } from 'vue';
+import { h, render, resolveComponent } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
@@ -30,6 +30,23 @@ const routes = [
             path: '/customer/list',
             name: 'CustomerList',
             component: () => import('@/views/customers/ListCustomers.vue'),
+          },
+        ],
+      },
+      {
+        path: '/brand',
+        name: 'Customer',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/brand/addEdit',
+        children: [
+          {
+            path: '/brand/addEdit/:id?',
+            name: 'BrandAddEdit',
+            component: () => import('@/views/brands/AddEditBrand.vue'),
           },
         ],
       },

@@ -4,7 +4,6 @@ import api from '@/services/api.js';
 import { cilSearch } from '@coreui/icons';
 import CustomerTable from '../../components/customers/CustomerTable.vue';
 
-
 const customerList = ref([]);
 const inputSearch = ref('');
 
@@ -48,5 +47,5 @@ watch(inputSearch, async (newValSearch) => {
       </CInputGroup>
     </div>
   </div>
-  <CustomerTable :customerList="customerList"/>
+  <CustomerTable :customerList="customerList" />
 </template>

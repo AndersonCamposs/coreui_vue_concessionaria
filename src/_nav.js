@@ -10,8 +10,8 @@ export default [
     },
   },
   {
-    component: "CNavTitle",
-    name: "Menu"
+    component: 'CNavTitle',
+    name: 'Menu',
   },
   {
     /*COLLAPSE CUSTOMERS*/
@@ -29,8 +29,27 @@ export default [
         component: 'CNavItem',
         name: 'Listar todos',
         to: '/customer/list',
-      }
-    ]
+      },
+    ],
+  },
+  {
+    /*COLLAPSE CUSTOMERS*/
+    component: 'CNavGroup',
+    name: 'Marcas',
+    to: '/brand',
+    icon: 'cil-car',
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Adicionar',
+        to: '/brand/addEdit',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Listar todos',
+        to: '/brand/list',
+      },
+    ],
   },
   {
     component: 'CNavTitle',
@@ -171,7 +190,7 @@ export default [
           color: 'danger',
           text: 'PRO',
         },
-      }
+      },
     ],
   },
   {
@@ -408,4 +427,4 @@ export default [
       },
     ],
   },
-]
+];
