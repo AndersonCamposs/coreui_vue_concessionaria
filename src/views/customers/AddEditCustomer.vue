@@ -3,16 +3,7 @@ import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
-import {
-  CButton,
-  CForm,
-  CInputGroup,
-  CModal,
-  CModalBody,
-  CModalFooter,
-  CModalHeader,
-  CModalTitle,
-} from '@coreui/vue';
+import { CButton, CForm, CInputGroup } from '@coreui/vue';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
@@ -27,44 +18,37 @@ const modalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
 const customer = reactive({
-    id: '',
-    name: '',
-    cpf: '',
-    email: '',
-    bornDate: ''
-})
+  id: '',
+  name: '',
+  cpf: '',
+  email: '',
+  bornDate: '',
+});
 const name = ref('');
 const cpf = ref('');
 const email = ref('');
 const bornDate = ref('');
 
 const formatcpf = (event) => {
-    let value = event.target.value;
+  let value = event.target.value;
 
-    value = value.replace(/\D/g, '');
+  value = value.replace(/\D/g, '');
 
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d)/, '$1.$2');
-    value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
 
-    event.target.value = value;
+  event.target.value = value;
 };
 
 const onSubmit = async () => {
   try {
-    const data = {
-      name: name.value,
-      cpf: cpf.value,
-      email: email.value,
-      bornDate: bornDate.value,
-    };
-
     if (customerId.value) {
-      const response = await api.put(`/customer/${customerId.value}`, data);
+      const response = await api.put(`/customer/${customerId.value}`, customer);
       alert('Cliente atualizado com sucesso.');
       console.log(response);
     } else {
-      const response = await api.post('/customer', data);
+      const response = await api.post('/customer', customer);
       alert('Cliente cadastrado com sucesso.');
       console.log(response);
     }
@@ -81,11 +65,6 @@ const loadCustomerData = async (newId) => {
     try {
       const { data } = await api.get(`/customer/${newId}`);
       fillFields(data);
-      customer.id = data.id;
-      customer.name = data.name;
-      customer.cpf = data.cpf;
-      customer.email = data.cpf;
-      customer.bornDate = data.cpf;
     } catch (e) {
       console.log(e.message);
     }
@@ -105,17 +84,14 @@ const deleteCustomer = async () => {
 };
 
 const fillFields = (data) => {
-  name.value = data.name;
-  cpf.value = data.cpf;
-  email.value = data.email;
-  bornDate.value = data.bornDate;
+  customer.id = data.id;
+  customer.name = data.name;
+  customer.cpf = data.cpf;
+  customer.email = data.email;
+  customer.bornDate = data.bornDate;
 };
 
 const clearFields = () => {
-  name.value = '';
-  cpf.value = '';
-  email.value = '';
-  bornDate.value = '';
   customer.id = '';
   customer.name = '';
   customer.cpf = '';
@@ -123,19 +99,17 @@ const clearFields = () => {
   customer.bornDate = '';
 };
 
-
 const showError = (message) => {
-    errorMessage.value = message;
-    error.value = true;
-    setTimeout(() => {
-        error.value = false;
-    }, 3000)
-}
+  errorMessage.value = message;
+  error.value = true;
+  setTimeout(() => {
+    error.value = false;
+  }, 3000);
+};
 
 watch(
   () => route.params.id,
   (newId) => {
-
     customerId.value = newId || null;
     if (!newId) {
       clearFields();
@@ -153,88 +127,17 @@ watch(
       <strong>Adicionar cliente</strong> <small>Preencha os dados do cliente</small>
     </CCardHeader>
     <CCardBody>
-      <CForm @submit.prevent="onSubmit">
-        <div class="row mb-3">
-          <div class="col-8">
-            <CInputGroup class="mb-3">
-              <CInputGroupText id="basic-addon1"><CIcon :icon="cilPencil" /></CInputGroupText>
-              <CFormInput
-                type="text"
-                required
-                placeholder="Nome"
-                aria-label="Nome"
-                aria-describedby="basic-addon1"
-                v-model="name"
-              />
-            </CInputGroup>
-          </div>
-
-          <div class="col-4">
-            <CInputGroup class="mb-3">
-              <CInputGroupText id="basic-addon1"><CIcon :icon="cilListNumbered" /></CInputGroupText>
-              <CFormInput
-                type="text"
-                required
-                placeholder="CPF"
-                aria-label="CPF"
-                aria-describedby="basic-addon1"
-                maxlength="14"
-                @input="(event) => formatcpf(event)"
-                v-model="cpf"
-              />
-            </CInputGroup>
-          </div>
-
-          <div class="col-8">
-            <CInputGroup class="mb-3">
-              <CInputGroupText id="basic-addon1"><CIcon :icon="cilAt" /></CInputGroupText>
-              <CFormInput
-                type="email"
-                required
-                placeholder="E-mail"
-                aria-label="E-mail"
-                aria-describedby="basic-addon1"
-                v-model="email"
-              />
-            </CInputGroup>
-          </div>
-
-          <div class="col-4">
-            <CInputGroup class="mb-3">
-              <CInputGroupText id="basic-addon1"><CIcon :icon="cilCalendar" /></CInputGroupText>
-              <CFormInput
-                type="date"
-                required
-                placeholder="Data de nascimento"
-                aria-label="Data de nascimento"
-                aria-describedby="basic-addon1"
-                v-model="bornDate"
-              />
-            </CInputGroup>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-3">
-            <CButton color="primary" type="submit" class="me-4">
-              {{ customerId ? 'Atualizar' : 'Salvar' }}
-            </CButton>
-            <CButton
-              v-if="customerId"
-              color="danger"
-              class="me-4"
-              @click="
-                () => {
-                  modalVisible = true;
-                }
-              "
-              >Deletar</CButton
-            >
-          </div>
-        </div>
-      </CForm>
-      <CustomerForm :customer="customer" @show-delete-modal="modalVisible = true"/>
-      <ConfirmDeleteModal :visible="modalVisible" @confirm = "deleteCustomer" @close="modalVisible = false"/>
-      <ErrorMessage :message="errorMessage" v-if="error"/>
+      <CustomerForm
+        :customer="customer"
+        @show-delete-modal="modalVisible = true"
+        @on-submit="onSubmit"
+      />
+      <ConfirmDeleteModal
+        :visible="modalVisible"
+        @confirm="deleteCustomer"
+        @close="modalVisible = false"
+      />
+      <ErrorMessage :message="errorMessage" v-if="error" />
     </CCardBody>
   </CCard>
 </template>
