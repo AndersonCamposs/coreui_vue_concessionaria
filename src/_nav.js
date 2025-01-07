@@ -37,7 +37,8 @@ export default [
     component: 'CNavGroup',
     name: 'Marcas',
     to: '/brand',
-    icon: 'cil-car',
+    icon: 'cil-tags',
+    iconProps: { size: 'lg', class: 'text-white' },
     items: [
       {
         component: 'CNavItem',

@@ -48,6 +48,11 @@ const routes = [
             name: 'BrandAddEdit',
             component: () => import('@/views/brands/AddEditBrand.vue'),
           },
+          {
+            path: '/brand/list',
+            name: 'BrandList',
+            component: () => import('@/views/brands/AddEditBrand.vue'),
+          },
         ],
       },
 
