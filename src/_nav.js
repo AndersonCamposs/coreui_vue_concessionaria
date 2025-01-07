@@ -33,12 +33,11 @@ export default [
     ],
   },
   {
-    /*COLLAPSE CUSTOMERS*/
+    /*COLLAPSE BRANDS*/
     component: 'CNavGroup',
     name: 'Marcas',
     to: '/brand',
     icon: 'cil-tags',
-    iconProps: { size: 'lg', class: 'text-white' },
     items: [
       {
         component: 'CNavItem',

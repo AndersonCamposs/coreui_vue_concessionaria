@@ -35,7 +35,7 @@ const routes = [
       },
       {
         path: '/brand',
-        name: 'Customer',
+        name: 'Brand',
         component: {
           render() {
             return h(resolveComponent('router-view'));
