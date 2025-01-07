@@ -27,11 +27,6 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Buscar',
-        to: '/customer/search',
-      },
-      {
-        component: 'CNavItem',
         name: 'Listar todos',
         to: '/customer/list',
       }

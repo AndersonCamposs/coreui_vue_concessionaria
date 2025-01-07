@@ -1,12 +1,9 @@
-import { h, resolveComponent } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { h, resolveComponent } from 'vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-import DefaultLayout from '@/layouts/DefaultLayout'
+import DefaultLayout from '@/layouts/DefaultLayout';
 
 const routes = [
-
-
-
   {
     path: '/',
     name: 'Home',
@@ -19,18 +16,22 @@ const routes = [
         name: 'Customer',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
-          }
+            return h(resolveComponent('router-view'));
+          },
         },
         redirect: '/customer/addEdit',
         children: [
           {
-            path: '/customer/addEdit',
-            name: 'AddEdit',
+            path: '/customer/addEdit/:id?',
+            name: 'CustomerAddEdit',
             component: () => import('@/views/customers/AddEditCustomer.vue'),
           },
-        ]
-
+          {
+            path: '/customer/list',
+            name: 'CustomerList',
+            component: () => import('@/views/customers/ListCustomers.vue'),
+          },
+        ],
       },
 
       {
@@ -40,9 +41,7 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'
-          ),
+          import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/Dashboard.vue'),
       },
       {
         path: '/theme',
@@ -64,7 +63,7 @@ const routes = [
         name: 'Base',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/base/breadcrumbs',
@@ -151,7 +150,7 @@ const routes = [
         name: '_Buttons',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/buttons/standard-buttons',
@@ -178,7 +177,7 @@ const routes = [
         name: 'Forms',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/forms/form-control',
@@ -235,7 +234,7 @@ const routes = [
         name: 'Icons',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/icons/coreui-icons',
@@ -262,7 +261,7 @@ const routes = [
         name: 'Notifications',
         component: {
           render() {
-            return h(resolveComponent('router-view'))
+            return h(resolveComponent('router-view'));
           },
         },
         redirect: '/notifications/alerts',
@@ -302,7 +301,7 @@ const routes = [
     name: 'Pages',
     component: {
       render() {
-        return h(resolveComponent('router-view'))
+        return h(resolveComponent('router-view'));
       },
     },
     children: [
@@ -328,15 +327,15 @@ const routes = [
       },
     ],
   },
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     // always scroll to top
-    return { top: 0 }
+    return { top: 0 };
   },
-})
+});
 
-export default router
+export default router;
