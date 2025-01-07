@@ -6,6 +6,18 @@ import { CButton, CForm, CInputGroup } from '@coreui/vue';
 
 const emit = defineEmits(['showDeleteModal', 'onSubmit']);
 const { customer } = defineProps(['customer']);
+
+const formatcpf = (event) => {
+  let value = event.target.value;
+
+  value = value.replace(/\D/g, '');
+
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d)/, '$1.$2');
+  value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
+
+  event.target.value = value;
+};
 </script>
 
 <template>
