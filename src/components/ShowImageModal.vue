@@ -1,5 +1,4 @@
 <script setup>
-import { mergeAttributes } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { defineEmits, defineProps } from 'vue';
 const BASE_URL = import.meta.env.VITE_API_URL;
 

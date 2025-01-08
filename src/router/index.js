@@ -51,7 +51,7 @@ const routes = [
           {
             path: '/brand/list',
             name: 'BrandList',
-            component: () => import('@/views/brands/AddEditBrand.vue'),
+            component: () => import('@/views/brands/ListBrands.vue'),
           },
         ],
       },
