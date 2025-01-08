@@ -46,7 +46,12 @@ onUpdated(() => {
     </div>
     <div class="row mb-3">
       <div class="col-3">
-        <CButton color="primary" type="submit" class="me-4">Salvar</CButton>
+        <CButton color="primary" type="submit" class="me-4">
+          {{ brand.id ? 'Atualizar' : 'Salvar' }}
+        </CButton>
+        <CButton v-if="brand.id" color="danger" class="me-4" @click="$emit('showDeleteModal')"
+          >Deletar</CButton
+        >
       </div>
     </div>
   </CForm>

@@ -11,7 +11,7 @@ const errorMessage = ref('');
 
 const router = useRouter();
 const route = useRoute();
-const modalVisible = ref(false);
+const deleteModalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
 const customer = reactive({
@@ -110,13 +110,13 @@ watch(
     <CCardBody>
       <CustomerForm
         :customer="customer"
-        @show-delete-modal="modalVisible = true"
+        @show-delete-modal="deleteModalVisible = true"
         @on-submit="onSubmit"
       />
       <ConfirmDeleteModal
-        :visible="modalVisible"
+        :visible="deleteModalVisible"
         @confirm="deleteCustomer"
-        @close="modalVisible = false"
+        @close="deleteModalVisible = false"
       />
       <ErrorMessage :message="errorMessage" v-if="error" />
     </CCardBody>

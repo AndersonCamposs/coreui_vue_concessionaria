@@ -5,6 +5,7 @@ import BrandForm from '@/components/brands/BrandForm.vue';
 import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ShowImageModal from '../../components/ShowImageModal.vue';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -16,6 +17,7 @@ const brand = reactive({
   image: '',
 });
 const imageModalVisible = ref(false);
+const deleteModalVisible = ref(false);
 
 const onSubmit = async () => {
   console.log('submit');
@@ -68,11 +70,17 @@ watch(
         :brand="brand"
         @on-submit="onSubmit"
         @show-image-modal="imageModalVisible = true"
+        @show-delete-modal="deleteModalVisible = true"
       />
       <ShowImageModal
         :imageUrl="brand.image"
         :visible="imageModalVisible"
         @close="imageModalVisible = false"
+      />
+      <ConfirmDeleteModal
+        :visible="deleteModalVisible"
+        @confirm="console.log('CONFIRMA')"
+        @close="deleteModalVisible = false"
       />
     </CCardBody>
   </CCard>
