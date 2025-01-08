@@ -4,7 +4,7 @@ import { CCard, CCardBody, CCardHeader } from '@coreui/vue';
 import BrandForm from '@/components/brands/BrandForm.vue';
 import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ShowImageModal from '../../components/ShowImageModal.vue';
+import PreviewImageModal from '../../components/PreviewImageModal.vue';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
 
 const router = useRouter();
@@ -19,8 +19,16 @@ const brand = reactive({
 const imageModalVisible = ref(false);
 const deleteModalVisible = ref(false);
 
-const onSubmit = async () => {
-  console.log('submit');
+const onSubmit = async (file) => {
+  try {
+    if (brand.id) {
+      console.log('update');
+    } else {
+      console.log('post');
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
 };
 
 const loadBrandData = async (newId) => {
@@ -68,11 +76,11 @@ watch(
     <CCardBody>
       <BrandForm
         :brand="brand"
-        @on-submit="onSubmit"
+        @on-submit="(file) => onSubmit(file)"
         @show-image-modal="imageModalVisible = true"
         @show-delete-modal="deleteModalVisible = true"
       />
-      <ShowImageModal
+      <PreviewImageModal
         :imageUrl="brand.image"
         :visible="imageModalVisible"
         @close="imageModalVisible = false"

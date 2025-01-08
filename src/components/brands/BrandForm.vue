@@ -1,19 +1,21 @@
 <script setup>
 import { CForm, CInputGroup, CInputGroupText, CFormInput, CButton } from '@coreui/vue';
 import { CIcon } from '@coreui/icons-vue';
-import { defineProps, defineEmits, onUpdated } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import { cilFile, cilPencil } from '@coreui/icons';
 
 const emit = defineEmits(['onSubmit', 'showImageModal']);
 const { brand } = defineProps(['brand']);
+const selectedFile = ref(null);
 
-onUpdated(() => {
-  console.log(brand);
-});
+const onChangeFile = (event) => {
+  const file = event.target.files[0];
+  selectedFile.value = file;
+};
 </script>
 
 <template>
-  <CForm @submit.prevent="$emit('onSubmit')">
+  <CForm @submit.prevent="$emit('onSubmit', selectedFile)">
     <div class="row mb-3">
       <div :class="brand.id ? 'col-5' : 'col-6'">
         <CInputGroup class="mb-3">
@@ -37,6 +39,7 @@ onUpdated(() => {
             placeholder="Foto"
             aria-label="Foto"
             aria-describedby="basic-addon1"
+            @input="(event) => onChangeFile(event)"
           />
         </CInputGroup>
       </div>
