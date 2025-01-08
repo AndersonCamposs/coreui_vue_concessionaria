@@ -28,13 +28,12 @@ const onSubmit = async () => {
       const response = await api.put(`/customer/${customerId.value}`, customer);
       alert('Cliente atualizado com sucesso.');
       console.log(response);
+      router.push({ name: 'CustomerList' });
     } else {
       const response = await api.post('/customer', customer);
       alert('Cliente cadastrado com sucesso.');
       console.log(response);
     }
-
-    router.push({ name: 'CustomerList' });
   } catch (e) {
     const message = e.response.data.errors[0];
     showError(message);

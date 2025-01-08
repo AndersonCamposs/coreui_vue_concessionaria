@@ -23,7 +23,7 @@ onMounted(async () => {
       v-for="brand in brandList"
       :key="brand.id"
       :brand="brand"
-      class="col-12 col-sm-5 col-md-3"
+      class="col-12 col-sm-5 col-md-4"
     />
   </div>
 </template>

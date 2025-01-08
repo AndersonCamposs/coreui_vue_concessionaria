@@ -4,7 +4,7 @@ import { CCard, CCardBody, CCardHeader } from '@coreui/vue';
 import BrandForm from '@/components/brands/BrandForm.vue';
 import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import PreviewImageModal from '../../components/PreviewImageModal.vue';
+import PreviewImageModal from '@/components/PreviewImageModal.vue';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
 
 const router = useRouter();
@@ -20,14 +20,25 @@ const imageModalVisible = ref(false);
 const deleteModalVisible = ref(false);
 
 const onSubmit = async (file) => {
+  const formData = new FormData();
   try {
+    formData.append('name', brand.name);
+    formData.append('file', file);
+
     if (brand.id) {
       console.log('update');
     } else {
-      console.log('post');
+      const { data } = await api.post('/brand', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Marca cadastrada com sucesso.');
+      console.log(data);
     }
+    router.push({ name: 'BrandList' });
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
 };
 
