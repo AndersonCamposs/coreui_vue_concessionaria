@@ -11,7 +11,7 @@ const errorMessage = ref('');
 
 const router = useRouter();
 const route = useRoute();
-const modalVisible = ref(false);
+const deleteModalVisible = ref(false);
 
 const customerId = ref(route.params.id || null);
 const customer = reactive({
@@ -28,13 +28,12 @@ const onSubmit = async () => {
       const response = await api.put(`/customer/${customerId.value}`, customer);
       alert('Cliente atualizado com sucesso.');
       console.log(response);
+      router.push({ name: 'CustomerList' });
     } else {
       const response = await api.post('/customer', customer);
       alert('Cliente cadastrado com sucesso.');
       console.log(response);
     }
-
-    router.push({ name: 'CustomerList' });
   } catch (e) {
     const message = e.response.data.errors[0];
     showError(message);
@@ -52,16 +51,15 @@ const loadCustomerData = async (newId) => {
   }
 };
 
-const deleteCustomer = async () => {
+const onDelete = async () => {
   if (customerId.value) {
     try {
       const response = await api.delete(`/customer/${customerId.value}`);
+      router.push({ name: 'CustomerList' });
     } catch (e) {
       console.log(e.message);
     }
   }
-
-  router.push({ name: 'CustomerList' });
 };
 
 const fillFields = (data) => {
@@ -85,7 +83,7 @@ const showError = (message) => {
   error.value = true;
   setTimeout(() => {
     error.value = false;
-  }, 3000);
+  }, 5000);
 };
 
 watch(
@@ -110,13 +108,13 @@ watch(
     <CCardBody>
       <CustomerForm
         :customer="customer"
-        @show-delete-modal="modalVisible = true"
+        @show-delete-modal="deleteModalVisible = true"
         @on-submit="onSubmit"
       />
       <ConfirmDeleteModal
-        :visible="modalVisible"
-        @confirm="deleteCustomer"
-        @close="modalVisible = false"
+        :visible="deleteModalVisible"
+        @confirm="onDelete"
+        @close="deleteModalVisible = false"
       />
       <ErrorMessage :message="errorMessage" v-if="error" />
     </CCardBody>

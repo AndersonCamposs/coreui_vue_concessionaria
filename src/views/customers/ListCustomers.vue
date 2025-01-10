@@ -4,9 +4,8 @@ import api from '@/services/api.js';
 import { cilSearch } from '@coreui/icons';
 import CustomerTable from '../../components/customers/CustomerTable.vue';
 
-
 const customerList = ref([]);
-const inputSearch = ref('');
+const searchValue = ref('');
 
 onMounted(async () => {
   try {
@@ -17,13 +16,13 @@ onMounted(async () => {
   }
 });
 
-watch(inputSearch, async (newValSearch) => {
+watch(searchValue, async (newSearchValue) => {
   try {
     let response;
-    if (!newValSearch) {
+    if (!newSearchValue) {
       response = await api.get('/customer');
     } else {
-      response = await api.get(`/customer/search?name=${encodeURIComponent(newValSearch)}`);
+      response = await api.get(`/customer/search?name=${encodeURIComponent(newSearchValue)}`);
     }
     customerList.value = response.data;
   } catch (e) {
@@ -43,10 +42,10 @@ watch(inputSearch, async (newValSearch) => {
           placeholder="Buscar por nome"
           aria-label="Burcar por nome"
           aria-describedby="basic-addon1"
-          v-model="inputSearch"
+          v-model="searchValue"
         />
       </CInputGroup>
     </div>
   </div>
-  <CustomerTable :customerList="customerList"/>
+  <CustomerTable :customerList="customerList" />
 </template>
