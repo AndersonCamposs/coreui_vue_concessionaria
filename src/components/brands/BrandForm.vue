@@ -4,7 +4,7 @@ import { CIcon } from '@coreui/icons-vue';
 import { defineProps, defineEmits, ref } from 'vue';
 import { cilFile, cilPencil } from '@coreui/icons';
 
-const emit = defineEmits(['onSubmit', 'showImageModal']);
+const emit = defineEmits(['onSubmit', 'showImageModal', 'showDeleteModal']);
 const { brand } = defineProps(['brand']);
 const selectedFile = ref(null);
 

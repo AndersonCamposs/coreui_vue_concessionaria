@@ -6,6 +6,10 @@ import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PreviewImageModal from '@/components/PreviewImageModal.vue';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
+import ErrorMessage from '@/components/ErrorMessage.vue';
+
+const error = ref(false);
+const errorMessage = ref('');
 
 const router = useRouter();
 const route = useRoute();
@@ -44,7 +48,12 @@ const onSubmit = async (file) => {
     }
     router.push({ name: 'BrandList' });
   } catch (e) {
-    console.log(e);
+    const { data } = e.response;
+    let message = data.message;
+    for (const error of data.errors) {
+      message += `\n ${error}`;
+    }
+    showError(message);
   }
 };
 
@@ -52,6 +61,7 @@ const onDelete = async () => {
   if (brandId.value) {
     try {
       const { data } = api.delete(`/brand/${brandId.value}`);
+      router.push({ name: 'BrandList' });
     } catch (e) {
       console.log(e);
     }
@@ -79,6 +89,14 @@ const clearFields = () => {
   brand.id = '';
   brand.name = '';
   brand.image = '';
+};
+
+const showError = (message) => {
+  errorMessage.value = message;
+  error.value = true;
+  setTimeout(() => {
+    error.value = false;
+  }, 5000);
 };
 
 watch(
@@ -117,6 +135,7 @@ watch(
         @confirm="onDelete"
         @close="deleteModalVisible = false"
       />
+      <ErrorMessage :message="errorMessage" v-if="error" />
     </CCardBody>
   </CCard>
 </template>

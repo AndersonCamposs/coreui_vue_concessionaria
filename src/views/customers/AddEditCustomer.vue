@@ -83,7 +83,7 @@ const showError = (message) => {
   error.value = true;
   setTimeout(() => {
     error.value = false;
-  }, 3000);
+  }, 5000);
 };
 
 watch(
