@@ -1,15 +1,30 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import api from '@/services/api';
 import BrandListItem from '../../components/brands/BrandListItem.vue';
 import CIcon from '@coreui/icons-vue';
 import { cilSearch } from '@coreui/icons';
 
 const brandList = ref([]);
+const searchValue = ref('');
 onMounted(async () => {
   try {
     const { data } = await api.get('/brand');
     brandList.value = data;
+  } catch (e) {
+    console.log(e.message);
+  }
+});
+
+watch(searchValue, async (newSearchValue) => {
+  try {
+    let response;
+    if (!newSearchValue) {
+      response = await api.get('/brand');
+    } else {
+      response = await api.get(`/brand/search?name=${encodeURIComponent(newSearchValue)}`);
+    }
+    brandList.value = response.data;
   } catch (e) {
     console.log(e.message);
   }
@@ -32,7 +47,7 @@ onMounted(async () => {
             placeholder="Buscar por nome"
             aria-label="Burcar por nome"
             aria-describedby="basic-addon1"
-            v-model="inputSearch"
+            v-model="searchValue"
           />
         </CInputGroup>
       </div>
