@@ -46,7 +46,7 @@ export default [
       },
       {
         component: 'CNavItem',
-        name: 'Listar todos',
+        name: 'Listar todas',
         to: '/brand/list',
       },
     ],
