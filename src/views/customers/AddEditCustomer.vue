@@ -51,16 +51,15 @@ const loadCustomerData = async (newId) => {
   }
 };
 
-const deleteCustomer = async () => {
+const onDelete = async () => {
   if (customerId.value) {
     try {
       const response = await api.delete(`/customer/${customerId.value}`);
+      router.push({ name: 'CustomerList' });
     } catch (e) {
       console.log(e.message);
     }
   }
-
-  router.push({ name: 'CustomerList' });
 };
 
 const fillFields = (data) => {
@@ -114,7 +113,7 @@ watch(
       />
       <ConfirmDeleteModal
         :visible="deleteModalVisible"
-        @confirm="deleteCustomer"
+        @confirm="onDelete"
         @close="deleteModalVisible = false"
       />
       <ErrorMessage :message="errorMessage" v-if="error" />
