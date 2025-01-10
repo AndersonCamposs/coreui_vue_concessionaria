@@ -48,6 +48,16 @@ const onSubmit = async (file) => {
   }
 };
 
+const onDelete = async () => {
+  if (brandId.value) {
+    try {
+      const { data } = api.delete(`/brand/${brandId.value}`);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+
 const loadBrandData = async (newId) => {
   if (brandId.value) {
     try {
@@ -104,7 +114,7 @@ watch(
       />
       <ConfirmDeleteModal
         :visible="deleteModalVisible"
-        @confirm="console.log('CONFIRMA')"
+        @confirm="onDelete"
         @close="deleteModalVisible = false"
       />
     </CCardBody>
