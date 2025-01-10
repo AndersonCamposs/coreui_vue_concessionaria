@@ -26,7 +26,13 @@ const onSubmit = async (file) => {
     formData.append('file', file);
 
     if (brand.id) {
-      console.log('update');
+      const { data } = await api.put(`/brand/${brandId.value}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Marca atualizada com sucesso');
+      console.log(data);
     } else {
       const { data } = await api.post('/brand', formData, {
         headers: {
