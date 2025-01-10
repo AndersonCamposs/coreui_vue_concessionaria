@@ -18,12 +18,14 @@ onMounted(async () => {
   <CAlert color="warning" v-if="brandList.length === 0" class="text-center">
     Não existem registros. Adicione novas marcas para que elas apareçam aqui.
   </CAlert>
-  <div class="row gy-4 justify-content-between mx-4" v-else>
-    <BrandListItem
+  <div class="d-flex flex-wrap justify-content-start" style="margin: -0.5rem" v-else>
+    <div
       v-for="brand in brandList"
       :key="brand.id"
-      :brand="brand"
-      class="col-12 col-sm-5 col-md-4"
-    />
+      class="p-3"
+      style="flex: 1 1 calc(33.333% - 1rem); max-width: calc(33.333% - 1rem); margin: 0.5rem"
+    >
+      <BrandListItem :brand="brand" />
+    </div>
   </div>
 </template>
