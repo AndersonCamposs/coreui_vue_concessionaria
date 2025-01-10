@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 <template>
   <CCard>
-    <CCardImage :src="BASE_URL + brand.image" alt="Brand Image" class="p-3 h-50" />
+    <CCardImage :src="BASE_URL + '/' + brand.image" alt="Brand Image" class="p-3 h-50" />
     <CCardBody>
       <h5 class="text-center">{{ brand.name }}</h5>
       <CButton color="primary" class="w-100 mt-2">

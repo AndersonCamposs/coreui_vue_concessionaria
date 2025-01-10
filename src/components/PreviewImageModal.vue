@@ -14,7 +14,7 @@ const onClose = () => emit('close');
     <CModalHeader>
       <CModalTitle>Imagem da marca</CModalTitle>
     </CModalHeader>
-    <img :src="BASE_URL + imageUrl" alt="Imagem da marca do carro" style="" />
+    <img :src="BASE_URL + '/' + imageUrl" alt="Imagem da marca do carro" style="" />
     <CModalFooter>
       <CButton color="secondary" @click="onClose"> Fechar </CButton>
     </CModalFooter>
