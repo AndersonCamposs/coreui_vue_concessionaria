@@ -1,7 +1,9 @@
 <script setup>
 import { defineEmits } from 'vue';
 
-const { visible } = defineProps(['visible']);
+const props = defineProps({
+  visible: { required: true },
+});
 
 const emit = defineEmits(['close', 'confirm']);
 
