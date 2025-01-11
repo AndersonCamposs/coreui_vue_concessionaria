@@ -3,6 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import api from '@/services/api.js';
 import { cilSearch } from '@coreui/icons';
 import CustomerTable from '../../components/customers/CustomerTable.vue';
+import { CButton } from '@coreui/vue';
 
 const customerList = ref([]);
 const searchValue = ref('');
@@ -33,7 +34,7 @@ watch(searchValue, async (newSearchValue) => {
 
 <template>
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 col-md-8 col-lg-4 mb-3">
       <CInputGroup class="mb-3">
         <CInputGroupText id="basic-addon1"><CIcon :icon="cilSearch" /></CInputGroupText>
         <CFormInput
@@ -45,6 +46,9 @@ watch(searchValue, async (newSearchValue) => {
           v-model="searchValue"
         />
       </CInputGroup>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2 mb-3">
+      <CButton color="primary" @click="onSearch">Buscar</CButton>
     </div>
   </div>
   <CustomerTable :customerList="customerList" />
