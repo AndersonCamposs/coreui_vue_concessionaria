@@ -6,6 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 const props = defineProps({
   brand: {
+    type: Object,
     required: true,
   },
 });
