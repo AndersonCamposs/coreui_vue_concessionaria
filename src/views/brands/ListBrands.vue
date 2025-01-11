@@ -11,7 +11,6 @@ const searchValue = ref('');
 onMounted(async () => {
   try {
     const { data } = await api.get('/brand');
-    console.log(data);
     brandList.value = data;
   } catch (e) {
     console.log(e.message);
