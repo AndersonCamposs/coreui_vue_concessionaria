@@ -2,7 +2,16 @@
 import { defineEmits, defineProps } from 'vue';
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const { visible, imageUrl } = defineProps(['visible', 'imageUrl']);
+const props = defineProps({
+  visible: {
+    type: Boolean,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+});
 
 const emit = defineEmits(['close', 'confirm']);
 
