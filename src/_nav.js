@@ -37,7 +37,7 @@ export default [
     component: 'CNavGroup',
     name: 'Marcas',
     to: '/brand',
-    icon: 'cil-tags',
+    icon: 'cil-speedometer',
     items: [
       {
         component: 'CNavItem',
@@ -48,6 +48,25 @@ export default [
         component: 'CNavItem',
         name: 'Listar todas',
         to: '/brand/list',
+      },
+    ],
+  },
+  {
+    /*COLLAPSE BRANDS*/
+    component: 'CNavGroup',
+    name: 'Categorias',
+    to: '/category',
+    icon: 'cil-tags',
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Adicionar',
+        to: '/category/addEdit',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Listar todas',
+        to: '/category/list',
       },
     ],
   },
