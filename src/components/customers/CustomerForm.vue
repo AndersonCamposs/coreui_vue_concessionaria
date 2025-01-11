@@ -5,7 +5,12 @@ import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CInputGroup } from '@coreui/vue';
 
 const emit = defineEmits(['showDeleteModal', 'onSubmit']);
-const { customer } = defineProps(['customer']);
+const props = defineProps({
+  customer: {
+    type: Object,
+    required: true,
+  },
+});
 
 const formatcpf = (event) => {
   let value = event.target.value;
