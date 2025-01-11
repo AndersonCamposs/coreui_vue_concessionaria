@@ -6,6 +6,7 @@ import { defineProps } from 'vue';
 
 const props = defineProps({
   customerList: {
+    type: Array,
     required: true,
   },
 });
