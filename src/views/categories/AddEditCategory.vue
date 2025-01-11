@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
-import CustomerForm from '@/components/categorys/CategoryForm.vue';
+import CustomerForm from '@/components/categories/CategoryForm.vue';
 
 const error = ref(false);
 const errorMessage = ref('');
@@ -38,7 +38,7 @@ const onSubmit = async () => {
   }
 };
 
-const loadCustomerData = async (newId) => {
+const loadCategoryData = async (newId) => {
   if (categoryId.value) {
     try {
       const { data } = await api.get(`/category/${newId}`);
@@ -87,7 +87,7 @@ watch(
     if (!newId) {
       clearFields();
     } else {
-      loadCustomerData(newId);
+      loadCategoryData(newId);
     }
   },
   { immediate: true },

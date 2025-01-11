@@ -68,12 +68,12 @@ const routes = [
           {
             path: '/category/addEdit/:id?',
             name: 'CategoryAddEdit',
-            component: () => import('@/views/categorys/AddEditCategory.vue'),
+            component: () => import('@/views/categories/AddEditCategory.vue'),
           },
           {
             path: '/category/list',
             name: 'CategoryList',
-            component: () => import('@/views/brands/ListBrands.vue'),
+            component: () => import('@/views/categories/ListCategories.vue'),
           },
         ],
       },

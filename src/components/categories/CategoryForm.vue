@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, onMounted } from 'vue';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CFormTextarea, CInputGroup } from '@coreui/vue';
@@ -34,7 +34,7 @@ const props = defineProps({
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"><CIcon :icon="cilListNumbered" /></CInputGroupText>
 
-          <CFormTextarea rows="2" placeholder="Descrição..." />
+          <CFormTextarea rows="2" placeholder="Descrição..." v-model="category.description" />
         </CInputGroup>
       </div>
     </div>
