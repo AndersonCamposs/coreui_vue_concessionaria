@@ -26,12 +26,12 @@ const onSubmit = async () => {
       const response = await api.put(`/category/${categoryId.value}`, category);
       alert('Categoria atualizada com sucesso.');
       console.log(response);
-      router.push({ name: 'CustomerList' });
     } else {
       const response = await api.post('/category', category);
       alert('Categoria cadastrada com sucesso.');
       console.log(response);
     }
+    router.push({ name: 'CategoryList' });
   } catch (e) {
     const message = e.response.data.errors[0];
     showError(message);
