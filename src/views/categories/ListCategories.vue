@@ -8,31 +8,23 @@ import { CButton } from '@coreui/vue';
 const categoryList = ref([]);
 const searchValue = ref('');
 
-const onSearch = async () => {
-  try {
-    const response = await api.get(
-      `/category/search?name=${encodeURIComponent(searchValue.value)}`,
-    );
-
-    categoryList.value = response.data;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-const onReset = async () => {
-  try {
-    const response = await api.get('/category');
-    categoryList.value = response.data;
-    searchValue.value = '';
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
 onMounted(async () => {
   try {
     const response = await api.get('/category');
+    categoryList.value = response.data;
+  } catch (e) {
+    console.log(e.message);
+  }
+});
+
+watch(searchValue, async (newSearchValue) => {
+  try {
+    let response;
+    if (!newSearchValue) {
+      response = await api.get('/category');
+    } else {
+      response = await api.get(`/category/search?name=${encodeURIComponent(newSearchValue)}`);
+    }
     categoryList.value = response.data;
   } catch (e) {
     console.log(e.message);
