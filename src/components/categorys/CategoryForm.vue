@@ -16,7 +16,7 @@ const props = defineProps({
 <template>
   <CForm @submit.prevent="emit('onSubmit')">
     <div class="row mb-3">
-      <div class="col-8">
+      <div class="col-12 col-lg-8 col-md-8 col-sm-8">
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"><CIcon :icon="cilPencil" /></CInputGroupText>
           <CFormInput
@@ -30,7 +30,7 @@ const props = defineProps({
         </CInputGroup>
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-lg-8 col-md-8 col-sm-8">
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"><CIcon :icon="cilListNumbered" /></CInputGroupText>
 
