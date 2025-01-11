@@ -5,7 +5,12 @@ import { defineProps, defineEmits, ref } from 'vue';
 import { cilFile, cilPencil } from '@coreui/icons';
 
 const emit = defineEmits(['onSubmit', 'showImageModal', 'showDeleteModal']);
-const { brand } = defineProps(['brand']);
+const props = defineProps({
+  brand: {
+    type: Object,
+    required: true,
+  },
+});
 const selectedFile = ref(null);
 
 const onChangeFile = (event) => {
