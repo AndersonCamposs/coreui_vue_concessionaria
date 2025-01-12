@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
-import CustomerForm from '../../components/customers/CustomerForm.vue';
+import CustomerForm from '@/components/categories/CategoryForm.vue';
 
 const error = ref(false);
 const errorMessage = ref('');
@@ -13,37 +13,35 @@ const router = useRouter();
 const route = useRoute();
 const deleteModalVisible = ref(false);
 
-const customerId = ref(route.params.id || null);
-const customer = reactive({
+const categoryId = ref(route.params.id || null);
+const category = reactive({
   id: '',
   name: '',
-  cpf: '',
-  email: '',
-  bornDate: '',
+  description: '',
 });
 
 const onSubmit = async () => {
   try {
-    if (customerId.value) {
-      const response = await api.put(`/customer/${customerId.value}`, customer);
-      alert('Cliente atualizado com sucesso.');
+    if (categoryId.value) {
+      const response = await api.put(`/category/${categoryId.value}`, category);
+      alert('Categoria atualizada com sucesso.');
       console.log(response);
     } else {
-      const response = await api.post('/customer', customer);
-      alert('Cliente cadastrado com sucesso.');
+      const response = await api.post('/category', category);
+      alert('Categoria cadastrada com sucesso.');
       console.log(response);
     }
-    router.push({ name: 'CustomerList' });
+    router.push({ name: 'CategoryList' });
   } catch (e) {
     const message = e.response.data.errors[0];
     showError(message);
   }
 };
 
-const loadCustomerData = async (newId) => {
-  if (customerId.value) {
+const loadCategoryData = async (newId) => {
+  if (categoryId.value) {
     try {
-      const { data } = await api.get(`/customer/${newId}`);
+      const { data } = await api.get(`/category/${newId}`);
       fillFields(data);
     } catch (e) {
       console.log(e.message);
@@ -52,9 +50,9 @@ const loadCustomerData = async (newId) => {
 };
 
 const onDelete = async () => {
-  if (customerId.value) {
+  if (categoryId.value) {
     try {
-      const response = await api.delete(`/customer/${customerId.value}`);
+      const response = await api.delete(`/category/${categoryId.value}`);
       router.push({ name: 'CustomerList' });
     } catch (e) {
       console.log(e.message);
@@ -63,19 +61,15 @@ const onDelete = async () => {
 };
 
 const fillFields = (data) => {
-  customer.id = data.id;
-  customer.name = data.name;
-  customer.cpf = data.cpf;
-  customer.email = data.email;
-  customer.bornDate = data.bornDate;
+  category.id = data.id;
+  category.name = data.name;
+  category.description = data.description;
 };
 
 const clearFields = () => {
-  customer.id = '';
-  customer.name = '';
-  customer.cpf = '';
-  customer.email = '';
-  customer.bornDate = '';
+  category.id = '';
+  category.name = '';
+  category.description = '';
 };
 
 const showError = (message) => {
@@ -89,11 +83,11 @@ const showError = (message) => {
 watch(
   () => route.params.id,
   (newId) => {
-    customerId.value = newId || null;
+    categoryId.value = newId || null;
     if (!newId) {
       clearFields();
     } else {
-      loadCustomerData(newId);
+      loadCategoryData(newId);
     }
   },
   { immediate: true },
@@ -103,11 +97,11 @@ watch(
 <template>
   <CCard class="mb-4">
     <CCardHeader>
-      <strong>Adicionar cliente</strong> <small>Preencha os dados do cliente</small>
+      <strong>Adicionar categoria</strong> <small>Preencha os dados da categoria</small>
     </CCardHeader>
     <CCardBody>
       <CustomerForm
-        :customer="customer"
+        :category="category"
         @show-delete-modal="deleteModalVisible = true"
         @on-submit="onSubmit"
       />

@@ -55,6 +55,28 @@ const routes = [
           },
         ],
       },
+      {
+        path: '/category',
+        name: 'Category',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/category/addEdit',
+        children: [
+          {
+            path: '/category/addEdit/:id?',
+            name: 'CategoryAddEdit',
+            component: () => import('@/views/categories/AddEditCategory.vue'),
+          },
+          {
+            path: '/category/list',
+            name: 'CategoryList',
+            component: () => import('@/views/categories/ListCategories.vue'),
+          },
+        ],
+      },
 
       {
         path: '/dashboard',
