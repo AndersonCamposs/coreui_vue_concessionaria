@@ -52,7 +52,7 @@ export default [
     ],
   },
   {
-    /*COLLAPSE BRANDS*/
+    /*COLLAPSE CATEGORIES*/
     component: 'CNavGroup',
     name: 'Categorias',
     to: '/category',
@@ -67,6 +67,25 @@ export default [
         component: 'CNavItem',
         name: 'Listar todas',
         to: '/category/list',
+      },
+    ],
+  },
+  {
+    /*COLLAPSE VEHICLES*/
+    component: 'CNavGroup',
+    name: 'Veículos',
+    to: '/category',
+    icon: 'cil-car-alt',
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Adicionar',
+        to: '/vehicle/addEdit',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Listar todos',
+        to: '/vehicle/list',
       },
     ],
   },

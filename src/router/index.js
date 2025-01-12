@@ -11,7 +11,7 @@ const routes = [
     redirect: '/dashboard',
     children: [
       // MY ROUTES
-      {
+      { // CUSTOMERS
         path: '/customer',
         name: 'Customer',
         component: {
@@ -33,7 +33,7 @@ const routes = [
           },
         ],
       },
-      {
+      { // BRANDS
         path: '/brand',
         name: 'Brand',
         component: {
@@ -55,7 +55,7 @@ const routes = [
           },
         ],
       },
-      {
+      { // CATEGORIES
         path: '/category',
         name: 'Category',
         component: {
@@ -77,7 +77,28 @@ const routes = [
           },
         ],
       },
-
+{ // VEHICLES
+        path: '/vehicle',
+        name: 'Vehicle',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/vehicle/addEdit',
+        children: [
+          {
+            path: '/vehicle/addEdit/:id?',
+            name: 'VehicleAddEdit',
+            component: () => import('@/views/vehicles/AddEditVehicle.vue'),
+          },
+          {
+            path: '/vehicle/list',
+            name: 'VehicleList',
+            component: () => import('@/views/vehicles/ListVehicles.vue'),
+          },
+        ],
+      },
       {
         path: '/dashboard',
         name: 'Dashboard',

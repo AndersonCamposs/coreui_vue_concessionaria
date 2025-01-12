@@ -1,0 +1,3 @@
+<template>
+    List Vehicles
+</template>
