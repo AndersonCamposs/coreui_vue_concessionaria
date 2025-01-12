@@ -28,7 +28,7 @@ const props = defineProps({
       <h5>{{ vehicle.brand.name + ' ' + vehicle.model }}</h5>
       <p>{{ vehicle.description }}</p>
       <p class="mt-4">
-        <strong>R$ {{ vehicle.value }}</strong>
+        <strong>R$ {{ vehicle.value.toLocaleString('pt-BR') }}</strong>
       </p>
       <hr />
 
