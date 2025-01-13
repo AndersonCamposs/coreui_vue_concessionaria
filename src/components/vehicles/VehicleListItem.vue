@@ -1,5 +1,5 @@
 <script setup>
-import { cilPencil } from '@coreui/icons';
+import { cilCalendar, cilPencil, cilSettings, cilSpeedometer } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CCarousel, CCarouselItem } from '@coreui/vue';
 import { defineProps, defineEmits, onMounted } from 'vue';
@@ -11,6 +11,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const setNumberFormat = (number) => {
+  return number.toLocaleString('pt-BR');
+};
 </script>
 
 <template>
@@ -25,19 +29,24 @@ const props = defineProps({
       </CCarouselItem>
     </CCarousel>
     <CCardBody>
-      <h5>{{ vehicle.brand.name + ' ' + vehicle.model }}</h5>
+      <h5>{{ `${vehicle.brand.name} ${vehicle.model.toUpperCase()}` }}</h5>
       <p>{{ vehicle.description }}</p>
       <p class="mt-4">
-        <strong>R$ {{ vehicle.value.toLocaleString('pt-BR') }}</strong>
+        <strong>R$ {{ setNumberFormat(vehicle.value) }}</strong>
       </p>
       <hr />
+      <div class="d-flex justify-content-between">
+        <p><CIcon :icon="cilSpeedometer" /> {{ setNumberFormat(vehicle.odometerValue) }}</p>
+        <p><CIcon :icon="cilSettings" /> {{ vehicle.transmissionType }}</p>
+        <p><CIcon :icon="cilCalendar" /> {{ vehicle.year }}</p>
+      </div>
 
       <CButton color="primary" class="w-100 mt-2">
         <router-link
           :to="{ name: 'VehicleAddEdit', params: { id: vehicle.id } }"
           class="text-white text-decoration-none d-flex align-items-center justify-content-center"
         >
-          Editar
+          Details
         </router-link>
       </CButton>
     </CCardBody>
