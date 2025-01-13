@@ -25,6 +25,7 @@ const vehicle = reactive({
   transmissionType: '',
   status: '',
   value: '',
+  odometerValue: '',
   description: '',
   photos: '',
   sale: '',
