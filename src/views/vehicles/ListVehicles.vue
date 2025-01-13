@@ -12,7 +12,6 @@ onMounted(async () => {
   try {
     const { data } = await api.get('/vehicle');
     vehicleList.value = data;
-    console.log(data);
   } catch (e) {
     console.log(e.message);
   }
