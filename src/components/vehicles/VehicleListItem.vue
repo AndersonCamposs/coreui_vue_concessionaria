@@ -43,10 +43,10 @@ const setNumberFormat = (number) => {
 
       <CButton color="primary" class="w-100 mt-2">
         <router-link
-          :to="{ name: 'VehicleAddEdit', params: { id: vehicle.id } }"
+          :to="{ name: 'VehicleDetails', params: { id: vehicle.id } }"
           class="text-white text-decoration-none d-flex align-items-center justify-content-center"
         >
-          Details
+          Detalhes
         </router-link>
       </CButton>
     </CCardBody>
