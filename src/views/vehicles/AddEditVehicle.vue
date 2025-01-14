@@ -16,7 +16,7 @@ const deleteModalVisible = ref(false);
 const vehicleId = ref(route.params.id || null);
 const vehicle = reactive({
   id: '',
-  modal: '',
+  model: '',
   chassisNumber: '',
   plate: '',
   brand: '',
