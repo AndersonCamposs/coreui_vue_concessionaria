@@ -30,7 +30,6 @@ const setNumberFormat = (number) => {
     </CCarousel>
     <CCardBody>
       <h5>{{ `${vehicle.brand.name} ${vehicle.model.toUpperCase()}` }}</h5>
-      <p>{{ vehicle.description }}</p>
       <p class="mt-4">
         <strong>R$ {{ setNumberFormat(vehicle.value) }}</strong>
       </p>

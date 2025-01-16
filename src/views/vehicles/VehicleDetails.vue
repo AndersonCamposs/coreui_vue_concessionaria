@@ -16,6 +16,7 @@ const vehicle = reactive({
   plate: '',
   brand: {},
   year: '',
+  color: '',
   category: {},
   transmissionType: '',
   status: '',
@@ -45,6 +46,7 @@ onMounted(async () => {
   try {
     const { data } = await api.get(`/vehicle/${vehicleId.value}`);
     loadVehicleData(data);
+    console.log(data);
   } catch (e) {
     console.log(e.message);
   }
