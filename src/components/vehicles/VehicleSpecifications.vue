@@ -1,6 +1,8 @@
 <script setup>
-import { cilColorPalette, cilFlagAlt, cilSettings } from '@coreui/icons';
+import { cilColorPalette, cilDollar, cilFlagAlt, cilSettings, cilSpeedometer } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
+import numberFormatter from '@/utils/numberFormatter';
+import { CButton } from '@coreui/vue';
 
 const props = defineProps({
   vehicle: {
@@ -13,7 +15,7 @@ const props = defineProps({
 <template>
   <h3 class="text-center">{{ `${vehicle.brand.name} ${vehicle.model}(${vehicle.year})` }}</h3>
   <hr />
-  <div class="row">
+  <div class="row mb-3">
     <div class="col-6 col-lg-4 col-md-3">
       <p class="m-0"><strong>Cor</strong></p>
       <CIcon :icon="cilColorPalette" /> {{ vehicle.color }}
@@ -27,7 +29,25 @@ const props = defineProps({
       <CIcon :icon="cilSettings" /> {{ vehicle.transmissionType }}
     </div>
   </div>
+  <div class="row mb-3">
+    <div class="col-6 col-lg-4 col-md-3">
+      <p class="m-0"><strong>Hodômetro</strong></p>
+      <CIcon :icon="cilSpeedometer" /> {{ numberFormatter(vehicle.odometerValue) }}
+    </div>
+    <div class="col-6 col-lg-4 col-md-3">
+      <p class="m-0"><strong>Valor</strong></p>
+      <CIcon :icon="cilDollar" /> {{ numberFormatter(vehicle.value) }}
+    </div>
+  </div>
+
   <hr />
   <h5>Descrição</h5>
   <p>{{ vehicle.description ? vehicle.description : 'N/A' }}</p>
+
+  <hr />
+  <div class="row">
+    <div class="col-12">
+      <CButton color="primary">Vender</CButton>
+    </div>
+  </div>
 </template>
