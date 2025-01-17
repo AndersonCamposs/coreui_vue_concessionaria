@@ -46,8 +46,11 @@ const props = defineProps({
 
   <hr />
   <div class="row">
-    <div class="col-12">
-      <CButton color="primary">Vender</CButton>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+      <CButton color="primary" class="my-2">Vender</CButton>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+      <CButton color="secondary" class="my-2">Editar</CButton>
     </div>
   </div>
 </template>
