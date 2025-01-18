@@ -1,8 +1,22 @@
 <script setup>
 import { defineProps, defineEmits, ref, onMounted } from 'vue';
-import { cilPencil, cilListNumbered, cilAt, cilCalendar, cilTag } from '@coreui/icons';
+import {
+  cilPencil,
+  cilListNumbered,
+  cilAt,
+  cilCalendar,
+  cilTag,
+  cilFlagAlt,
+  cilCode,
+  cilClipboard,
+  cilCalendarCheck,
+  cilPaint,
+  cilSettings,
+  cilDollar,
+  cilSpeedometer,
+} from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
-import { CButton, CForm, CFormSelect, CInputGroup } from '@coreui/vue';
+import { CButton, CForm, CFormInput, CFormSelect, CFormTextarea, CInputGroup } from '@coreui/vue';
 import api from '@/services/api.js';
 
 const emit = defineEmits(['showDeleteModal', 'onSubmit']);
@@ -46,11 +60,9 @@ onMounted(async () => {
 <template>
   <CForm @submit.prevent="emit('onSubmit')">
     <div class="row mb-3">
-      <div class="col-4">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
-          <CInputGroupText id="basic-addon1">
-            <CIcon :icon="cilTag" />
-          </CInputGroupText>
+          <CInputGroupText id="basic-addon1"> Marca </CInputGroupText>
           <CFormSelect aria-label="Select da marca do veículo">
             <option v-for="brand in brandsList" :key="brand.id" :value="brand.id">
               {{ brand.name }}
@@ -59,51 +71,156 @@ onMounted(async () => {
         </CInputGroup>
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
-          <CInputGroupText id="basic-addon1"><CIcon :icon="cilListNumbered" /></CInputGroupText>
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilFlagAlt" />
+          </CInputGroupText>
           <CFormInput
             type="text"
             required
-            placeholder="CPF"
-            aria-label="CPF"
+            placeholder="Modelo"
+            aria-label="Modelo"
             aria-describedby="basic-addon1"
-            maxlength="14"
-            v-model="vehicle.cpf"
-            :disabled="vehicle.id != ''"
           />
         </CInputGroup>
       </div>
 
-      <div class="col-8">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
-          <CInputGroupText id="basic-addon1"><CIcon :icon="cilAt" /></CInputGroupText>
+          <CInputGroupText id="basic-addon1"> Categoria </CInputGroupText>
+          <CFormSelect aria-label="Select da categoria do veículo">
+            <option v-for="category in categoriesList" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
+          </CFormSelect>
+        </CInputGroup>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilListNumbered" />
+          </CInputGroupText>
           <CFormInput
-            type="email"
+            type="text"
             required
-            placeholder="E-mail"
-            aria-label="E-mail"
+            placeholder="N° Chassi"
+            aria-label="N° Chassi"
             aria-describedby="basic-addon1"
-            v-model="vehicle.email"
           />
         </CInputGroup>
       </div>
 
-      <div class="col-4">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
-          <CInputGroupText id="basic-addon1"><CIcon :icon="cilCalendar" /></CInputGroupText>
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilClipboard" />
+          </CInputGroupText>
           <CFormInput
-            type="date"
+            type="text"
             required
-            placeholder="Data de nascimento"
-            aria-label="Data de nascimento"
+            placeholder="Placa"
+            aria-label="Placa"
             aria-describedby="basic-addon1"
-            v-model="vehicle.bornDate"
-            :disabled="vehicle.id != ''"
+          />
+        </CInputGroup>
+      </div>
+
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilCalendarCheck" />
+          </CInputGroupText>
+          <CFormInput
+            type="text"
+            required
+            placeholder="Ano"
+            aria-label="Ano"
+            aria-describedby="basic-addon1"
           />
         </CInputGroup>
       </div>
     </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilPaint" />
+          </CInputGroupText>
+          <CFormInput
+            type="text"
+            required
+            placeholder="Cor"
+            aria-label="Cor"
+            aria-describedby="basic-addon1"
+          />
+        </CInputGroup>
+      </div>
+
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilSettings" />
+          </CInputGroupText>
+          <CFormSelect>
+            <option value="MANUAL">MANUAL</option>
+            <option value="AUTOMATIC">AUTOMÁTICO</option>
+          </CFormSelect>
+        </CInputGroup>
+      </div>
+
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilDollar" />
+          </CInputGroupText>
+          <CFormInput
+            type="text"
+            required
+            placeholder="Valor"
+            aria-label="Valor"
+            aria-describedby="basic-addon1"
+          />
+        </CInputGroup>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilSpeedometer" />
+          </CInputGroupText>
+          <CFormInput
+            type="text"
+            required
+            placeholder="Valor do odômetro"
+            aria-label="Valor do odômetro"
+            aria-describedby="basic-addon1"
+          />
+        </CInputGroup>
+      </div>
+
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilPaint" />
+          </CInputGroupText>
+          <CFormTextarea
+            required
+            rows="1"
+            placeholder="Descrição"
+            aria-label="Descrição"
+            aria-describedby="basic-addon1"
+          />
+        </CInputGroup>
+      </div>
+    </div>
+
     <div class="row mb-3">
       <div class="col-3">
         <CButton color="primary" type="submit" class="me-4">
