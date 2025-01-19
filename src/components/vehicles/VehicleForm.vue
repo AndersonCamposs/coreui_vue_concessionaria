@@ -14,6 +14,8 @@ import {
   cilSettings,
   cilDollar,
   cilSpeedometer,
+  cilCamera,
+  cilTrash,
 } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CFormInput, CFormSelect, CFormTextarea, CInputGroup } from '@coreui/vue';
@@ -26,6 +28,7 @@ const props = defineProps({
     required: true,
   },
 });
+const files = ref([]);
 const brandsList = ref([]);
 const categoriesList = ref([]);
 
@@ -55,6 +58,25 @@ onMounted(async () => {
     console.log(e.message);
   }
 });
+
+const handleFileChange = (event) => {
+  const selectedFiles = Array.from(event.target.files);
+  const previewFiles = selectedFiles.map((file) => {
+    const preview = URL.createObjectURL(file);
+    return {
+      file,
+      preview,
+      name: file.name,
+    };
+  });
+
+  files.value.push(...previewFiles);
+};
+
+const removeFile = (index) => {
+  URL.revokeObjectURL(files.value[index].preview); // Libera o recurso da memória
+  files.value.splice(index, 1);
+};
 </script>
 
 <template>
@@ -219,6 +241,38 @@ onMounted(async () => {
           />
         </CInputGroup>
       </div>
+
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CFormInput type="file" multiple @change="(event) => handleFileChange(event)" />
+        </CInputGroup>
+      </div>
+    </div>
+
+    <div class="row mb-3" v-if="files.length">
+      <div class="col-12">
+        <p>Fotos selecionadas:</p>
+      </div>
+      <div class="col-12 photos-container">
+        <ul style="list-style: none; display: flex; flex-direction: row; flex-wrap: wrap">
+          <li
+            v-for="(file, index) in files"
+            :key="index"
+            style="position: relative; margin: 10px"
+            class="photo-item"
+          >
+            <img :src="file.preview" :alt="file.name" class="preview-image" />
+            <CButton
+              class="delete-button"
+              color="danger"
+              @click="removeFile(index)"
+              title="Remover"
+            >
+              <CIcon :icon="cilTrash" />
+            </CButton>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="row mb-3">
@@ -233,3 +287,35 @@ onMounted(async () => {
     </div>
   </CForm>
 </template>
+
+<style scoped>
+.preview-image {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+}
+
+.photo-item {
+  position: relative;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 50%;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+}
+
+.photo-item:hover .delete-button {
+  display: block;
+}
+</style>
