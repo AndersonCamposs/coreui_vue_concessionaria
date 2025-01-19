@@ -21,8 +21,10 @@ const props = defineProps({
 
 <style scoped>
 .carousel-image {
-  height: 30vw;
+  max-width: 100%; /* Limita a largura da imagem ao tamanho do contêiner */
+  max-height: 30vw; /* Define um limite para a altura */
   border-radius: 2rem;
   object-fit: contain;
+  margin: auto; /* Centraliza a imagem */
 }
 </style>

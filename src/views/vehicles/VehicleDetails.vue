@@ -54,11 +54,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="row">
-    <div class="col-12 col-lg-4 text-center">
+  <div class="row mx-n3">
+    <div
+      class="col-12 col-md-12 col-sm-12 col-lg-6 col-xl-6 col-xxl-6 px-3 d-flex align-items-center justify-content-center"
+    >
       <VehicleCarousel v-if="vehicle.photos.length > 0" :photos="vehicle.photos" />
     </div>
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-md-12 col-sm-12 col-lg-6 col-xl-6 col-xxl-6 px-3">
       <VehicleSpecifications :vehicle="vehicle" />
     </div>
   </div>

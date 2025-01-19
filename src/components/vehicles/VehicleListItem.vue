@@ -3,7 +3,7 @@ import { cilCalendar, cilPencil, cilSettings, cilSpeedometer } from '@coreui/ico
 import CIcon from '@coreui/icons-vue';
 import { CCarousel, CCarouselItem } from '@coreui/vue';
 import { defineProps, defineEmits, onMounted } from 'vue';
-import numberFormatter from '@/utils/numberFormatter';
+import numberFormatter from '@/utils/numberFormatter.js';
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const props = defineProps({
