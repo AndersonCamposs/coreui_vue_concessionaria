@@ -56,11 +56,11 @@ onMounted(async () => {
 <template>
   <div class="row mx-n3">
     <div
-      class="col-12 col-md-12 col-sm-12 col-lg-6 col-xl-6 col-xxl-6 px-3 d-flex align-items-center justify-content-center"
+      class="col-12 col-md-12 col-sm-12 col-lg-5 col-xl-5 col-xxl-5 px-3 d-flex align-items-center justify-content-center"
     >
       <VehicleCarousel v-if="vehicle.photos.length > 0" :photos="vehicle.photos" />
     </div>
-    <div class="col-12 col-md-12 col-sm-12 col-lg-6 col-xl-6 col-xxl-6 px-3">
+    <div class="col-12 col-md-12 col-sm-12 col-lg-7 col-xl-7 col-xxl-7 px-3">
       <VehicleSpecifications :vehicle="vehicle" />
     </div>
   </div>
