@@ -28,7 +28,7 @@ const props = defineProps({
     required: true,
   },
 });
-const files = ref([]);
+const files = ref(props.vehicle.photos);
 const brandsList = ref([]);
 const categoriesList = ref([]);
 
@@ -85,7 +85,7 @@ const removeFile = (index) => {
       <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"> Marca </CInputGroupText>
-          <CFormSelect aria-label="Select da marca do veículo">
+          <CFormSelect aria-label="Select da marca do veículo" v-model="vehicle.brand.id">
             <option v-for="brand in brandsList" :key="brand.id" :value="brand.id">
               {{ brand.name }}
             </option>
@@ -104,6 +104,7 @@ const removeFile = (index) => {
             placeholder="Modelo"
             aria-label="Modelo"
             aria-describedby="basic-addon1"
+            v-model="vehicle.model"
           />
         </CInputGroup>
       </div>
@@ -111,7 +112,7 @@ const removeFile = (index) => {
       <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"> Categoria </CInputGroupText>
-          <CFormSelect aria-label="Select da categoria do veículo">
+          <CFormSelect aria-label="Select da categoria do veículo" v-model="vehicle.category.id">
             <option v-for="category in categoriesList" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
@@ -132,6 +133,7 @@ const removeFile = (index) => {
             placeholder="N° Chassi"
             aria-label="N° Chassi"
             aria-describedby="basic-addon1"
+            v-model="vehicle.chassisNumber"
           />
         </CInputGroup>
       </div>
@@ -147,6 +149,7 @@ const removeFile = (index) => {
             placeholder="Placa"
             aria-label="Placa"
             aria-describedby="basic-addon1"
+            v-model="vehicle.plate"
           />
         </CInputGroup>
       </div>
@@ -162,6 +165,7 @@ const removeFile = (index) => {
             placeholder="Ano"
             aria-label="Ano"
             aria-describedby="basic-addon1"
+            v-model="vehicle.year"
           />
         </CInputGroup>
       </div>
@@ -179,6 +183,7 @@ const removeFile = (index) => {
             placeholder="Cor"
             aria-label="Cor"
             aria-describedby="basic-addon1"
+            v-model="vehicle.color"
           />
         </CInputGroup>
       </div>
@@ -188,7 +193,7 @@ const removeFile = (index) => {
           <CInputGroupText id="basic-addon1">
             <CIcon :icon="cilSettings" />
           </CInputGroupText>
-          <CFormSelect>
+          <CFormSelect v-model="vehicle.transmissionType">
             <option value="MANUAL">MANUAL</option>
             <option value="AUTOMATIC">AUTOMÁTICO</option>
           </CFormSelect>
@@ -206,6 +211,7 @@ const removeFile = (index) => {
             placeholder="Valor"
             aria-label="Valor"
             aria-describedby="basic-addon1"
+            v-model="vehicle.value"
           />
         </CInputGroup>
       </div>
@@ -223,6 +229,7 @@ const removeFile = (index) => {
             placeholder="Valor do odômetro"
             aria-label="Valor do odômetro"
             aria-describedby="basic-addon1"
+            v-model="vehicle.odometerValue"
           />
         </CInputGroup>
       </div>
@@ -238,10 +245,26 @@ const removeFile = (index) => {
             placeholder="Descrição"
             aria-label="Descrição"
             aria-describedby="basic-addon1"
+            v-model="vehicle.description"
           />
         </CInputGroup>
       </div>
 
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <CInputGroup class="mb-3">
+          <CInputGroupText id="basic-addon1">
+            <CIcon :icon="cilSettings" />
+          </CInputGroupText>
+          <CFormSelect v-model="vehicle.status">
+            <option value="AVAILABLE">DISPONÍVEL</option>
+            <option value="MAINTENANCE">MANUTENÇÃO</option>
+            <option value="SOLD">VENDIDO</option>
+          </CFormSelect>
+        </CInputGroup>
+      </div>
+    </div>
+
+    <div class="row mb-3">
       <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
           <CFormInput type="file" multiple @change="(event) => handleFileChange(event)" />
