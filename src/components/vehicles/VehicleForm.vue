@@ -99,7 +99,7 @@ const removeFile = (index) => {
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1"> Marca </CInputGroupText>
           <CFormSelect aria-label="Select da marca do veículo" v-model="vehicle.brand.id" required>
-            <option value="0" disabled selected>Selecione uma marca</option>
+            <option value="" disabled selected>Selecione uma marca</option>
             <option v-for="brand in brandsList" :key="brand.id" :value="brand.id">
               {{ brand.name }}
             </option>
@@ -131,7 +131,7 @@ const removeFile = (index) => {
             v-model="vehicle.category.id"
             required
           >
-            <option value="0" disabled selected>Selecione uma categoria</option>
+            <option value="" disabled selected>Selecione uma categoria</option>
             <option v-for="category in categoriesList" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
@@ -213,7 +213,7 @@ const removeFile = (index) => {
             <CIcon :icon="cilSettings" />
           </CInputGroupText>
           <CFormSelect v-model="vehicle.transmissionType" required>
-            <option value="0" disabled selected>Selecione a transmissão</option>
+            <option value="" disabled selected>Selecione a transmissão</option>
             <option value="MANUAL">MANUAL</option>
             <option value="AUTOMATIC">AUTOMÁTICO</option>
           </CFormSelect>
@@ -276,7 +276,7 @@ const removeFile = (index) => {
             <CIcon :icon="cilSettings" />
           </CInputGroupText>
           <CFormSelect v-model="vehicle.status" required>
-            <option value="0" disabled selected>Selecione o status</option>
+            <option value="" disabled selected>Selecione o status</option>
             <option value="AVAILABLE">DISPONÍVEL</option>
             <option value="MAINTENANCE">MANUTENÇÃO</option>
             <option value="SOLD">VENDIDO</option>
