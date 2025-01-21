@@ -1,20 +1,14 @@
 <script setup>
 import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import {
-  cilPencil,
   cilListNumbered,
-  cilAt,
-  cilCalendar,
-  cilTag,
   cilFlagAlt,
-  cilCode,
   cilClipboard,
   cilCalendarCheck,
   cilPaint,
   cilSettings,
   cilDollar,
   cilSpeedometer,
-  cilCamera,
   cilTrash,
 } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
