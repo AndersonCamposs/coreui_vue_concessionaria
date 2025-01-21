@@ -40,6 +40,7 @@ const vehicle = reactive({
 
 const onSubmit = async () => {
   const formData = prepareFormData();
+  console.log(vehicle);
   try {
     if (vehicleId.value) {
       /*const response = await api.put(`/vehicle/${vehicleId.value}`, vehicle);
@@ -50,7 +51,7 @@ const onSubmit = async () => {
       alert('Cliente cadastrado com sucesso.');
       console.log(response);*/
     }
-    router.push({ name: 'VehicleList' });
+    //router.push({ name: 'VehicleList' });
   } catch (e) {
     const message = e.response.data.errors[0];
     showError(message);
@@ -82,18 +83,43 @@ const onDelete = async () => {
 
 const fillFields = (data) => {
   vehicle.id = data.id;
-  vehicle.name = data.name;
-  vehicle.cpf = data.cpf;
-  vehicle.email = data.email;
-  vehicle.bornDate = data.bornDate;
+  vehicle.model = data.model;
+  vehicle.chassisNumber = data.chassisNumber;
+  vehicle.plate = data.plate;
+  vehicle.brand = data.brand;
+  vehicle.year = data.year;
+  vehicle.category = data.category;
+  vehicle.transmissionType = data.transmissionType;
+  vehicle.status = data.status;
+  vehicle.value = data.value;
+  vehicle.odometerValue = data.odometerValue;
+  vehicle.description = data.description;
+  vehicle.photos = data.photos;
+  vehicle.sale = data.sale;
 };
 
 const clearFields = () => {
   vehicle.id = '';
-  vehicle.name = '';
-  vehicle.cpf = '';
-  vehicle.email = '';
-  vehicle.bornDate = '';
+  vehicle.model = '';
+  vehicle.chassisNumber = '';
+  vehicle.plate = '';
+  vehicle.brand = {
+    id: '',
+    name: '',
+  };
+  vehicle.year = '';
+  vehicle.category = {
+    id: '',
+    name: '',
+    description: '',
+  };
+  vehicle.transmissionType = '';
+  vehicle.status = '';
+  vehicle.value = '';
+  vehicle.odometerValue = '';
+  vehicle.description = '';
+  vehicle.photos = [];
+  vehicle.sale = '';
 };
 
 const showError = (message) => {
@@ -144,6 +170,7 @@ watch(
         :vehicle="vehicle"
         @show-delete-modal="deleteModalVisible = true"
         @on-submit="onSubmit"
+        @update-photos="(updatedPhotos) => (vehicle.photos = updatedPhotos)"
       />
       <ConfirmDeleteModal
         :visible="deleteModalVisible"

@@ -15,14 +15,14 @@ import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CFormInput, CFormSelect, CFormTextarea, CInputGroup } from '@coreui/vue';
 import api from '@/services/api.js';
 
-const emit = defineEmits(['showDeleteModal', 'onSubmit']);
+const emit = defineEmits(['showDeleteModal', 'onSubmit', 'updatePhotos']);
 const props = defineProps({
   vehicle: {
     type: Object,
     required: true,
   },
 });
-const files = ref(props.vehicle.photos);
+const files = ref([]);
 const brandsList = ref([]);
 const categoriesList = ref([]);
 
@@ -41,6 +41,24 @@ const loadCategoriesList = async () => {
     categoriesList.value = data;
   } catch (e) {
     console.log(e.message);
+  }
+};
+
+// Atualiza o objeto brand completo
+const updateBrandObject = () => {
+  const selectedBrand = brandsList.value.find((brand) => brand.id === props.vehicle.brand.id);
+  if (selectedBrand) {
+    props.vehicle.brand = { ...selectedBrand };
+  }
+};
+
+// Atualiza o objeto category completo
+const updateCategoryObject = () => {
+  const selectedCategory = categoriesList.value.find(
+    (category) => category.id === props.vehicle.category.id,
+  );
+  if (selectedCategory) {
+    props.vehicle.category = { ...selectedCategory };
   }
 };
 
@@ -65,6 +83,7 @@ const handleFileChange = (event) => {
   });
 
   files.value.push(...previewFiles);
+  emit('updatePhotos', files.value);
 };
 
 const removeFile = (index) => {
