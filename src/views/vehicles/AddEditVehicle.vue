@@ -164,15 +164,16 @@ const prepareFormData = () => {
   formData.append('plate', vehicle.plate);
   formData.append('brandId', vehicle.brand.id);
   formData.append('year', vehicle.year);
+  formData.append('color', vehicle.color);
   formData.append('categoryId', vehicle.category.id);
   formData.append('transmissionType', vehicle.transmissionType);
   formData.append('status', vehicle.status);
   formData.append('value', vehicle.value);
   formData.append('odometerValue', vehicle.odometerValue);
   vehicle.photos.forEach((photo) => {
-    formData.append('file', photo);
+    formData.append('files', photo);
   });
-
+  formData.append('description', vehicle.description);
   return formData;
 };
 
