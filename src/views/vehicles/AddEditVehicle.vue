@@ -40,20 +40,32 @@ const vehicle = reactive({
 
 const onSubmit = async () => {
   const formData = prepareFormData();
-  console.log(vehicle);
   try {
     if (vehicleId.value) {
-      /*const response = await api.put(`/vehicle/${vehicleId.value}`, vehicle);
-      alert('Cliente atualizado com sucesso.');
-      console.log(response);*/
+      const response = await api.put(`/vehicle/${vehicleId.value}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Veículo atualizado com sucesso.');
+      console.log(response);
     } else {
-      /*const response = await api.post('/vehicle', vehicle);
-      alert('Cliente cadastrado com sucesso.');
-      console.log(response);*/
+      const response = await api.post('/vehicle', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Veículo cadastrado com sucesso.');
+      console.log(response);
     }
-    //router.push({ name: 'VehicleList' });
+    router.push({ name: 'VehicleList' });
   } catch (e) {
-    const message = e.response.data.errors[0];
+    let message;
+    if (e.response.data.errors) {
+      message = e.response.data.errors[0];
+    } else {
+      message = e.response.data.message;
+    }
     showError(message);
   }
 };
@@ -132,16 +144,34 @@ const showError = (message) => {
 
 const prepareFormData = () => {
   const formData = new FormData();
+  /*formData.append(
+    'vehicle',
+    JSON.stringify({
+      model: vehicle.model,
+      chassisNumber: vehicle.chassisNumber,
+      plate: vehicle.plate,
+      brandId: vehicle.brand.id,
+      year: vehicle.year,
+      categoryId: vehicle.category.id,
+      transmissionType: vehicle.transmissionType,
+      status: vehicle.status,
+      value: vehicle.value,
+      odometerValue: vehicle.odometerValue,
+    }),
+  );*/
   formData.append('model', vehicle.model);
   formData.append('chassisNumber', vehicle.chassisNumber);
   formData.append('plate', vehicle.plate);
   formData.append('brandId', vehicle.brand.id);
   formData.append('year', vehicle.year);
   formData.append('categoryId', vehicle.category.id);
+  formData.append('transmissionType', vehicle.transmissionType);
   formData.append('status', vehicle.status);
   formData.append('value', vehicle.value);
   formData.append('odometerValue', vehicle.odometerValue);
-  formData.append('file', vehicle.photos);
+  vehicle.photos.forEach((photo) => {
+    formData.append('file', photo);
+  });
 
   return formData;
 };
