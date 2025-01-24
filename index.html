@@ -6,8 +6,9 @@
 * Copyright (c) 2024 creativeLabs Łukasz Holeczek
 * Licensed under MIT (https://github.com/coreui/coreui-free-vue-admin-template/blob/main/LICENSE)
 -->
-<html>
-  <head>
+<html lang="pt-BR">
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
@@ -33,19 +34,22 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <script>
-      const userMode = localStorage.getItem('coreui-free-vue-admin-template-theme');
-	    const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-			if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
-				document.documentElement.dataset.coreuiTheme = 'dark';
-			}
+        const userMode = localStorage.getItem('coreui-free-vue-admin-template-theme');
+        const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
+            document.documentElement.dataset.coreuiTheme = 'dark';
+        }
     </script>
-  </head>
-  <body>
+</head>
+
+<body>
     <noscript>
-      <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong>
     </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
     <!-- built files will be auto injected -->
-  </body>
+</body>
+
 </html>
