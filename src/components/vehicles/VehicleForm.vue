@@ -15,6 +15,7 @@ import {
 import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CFormInput, CFormSelect, CFormTextarea, CInputGroup } from '@coreui/vue';
 import api from '@/services/api.js';
+import { File } from '@coreui/vue/dist/esm/components/form/CFormInput';
 
 const emit = defineEmits(['showDeleteModal', 'onSubmit', 'updatePhotos']);
 const props = defineProps({
@@ -67,10 +68,40 @@ onMounted(async () => {
   try {
     await loadBrandsList();
     await loadCategoriesList();
+    if (props.vehicle.photos.length) {
+      await fetchAndCreateFiles();
+    }
   } catch (e) {
     console.log(e.message);
   }
 });
+
+const fetchAndCreateFiles = async () => {
+  try {
+    const previewFiles = await Promise.all(
+      props.vehicle.photos.map(async (photo) => {
+        const response = await api.get(`/${photo.path}`, { responseType: 'blob' });
+        const blob = response.data;
+
+        const file = new File([blob], photo.name, { type: blob.type });
+
+        const preview = URL.createObjectURL(file);
+
+        return {
+          file,
+          preview,
+          name: file.name,
+        };
+      }),
+    );
+
+    files.value.push(...previewFiles);
+
+    emit('updatePhotos', files.value);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const handleFileChange = (event) => {
   const selectedFiles = Array.from(event.target.files);

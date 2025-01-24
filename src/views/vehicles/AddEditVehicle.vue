@@ -24,6 +24,7 @@ const vehicle = reactive({
     name: '',
   },
   year: '',
+  color: '',
   category: {
     id: '',
     name: '',
@@ -100,6 +101,7 @@ const fillFields = (data) => {
   vehicle.plate = data.plate;
   vehicle.brand = data.brand;
   vehicle.year = data.year;
+  vehicle.color = data.color;
   vehicle.category = data.category;
   vehicle.transmissionType = data.transmissionType;
   vehicle.status = data.status;

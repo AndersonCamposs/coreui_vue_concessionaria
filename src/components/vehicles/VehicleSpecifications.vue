@@ -46,11 +46,20 @@ const props = defineProps({
 
   <hr />
   <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-      <CButton color="primary" class="my-2">Vender</CButton>
+    <div class="col-12 col-sm-4 col-md-2 col-lg-3">
+      <CButton color="primary">
+        <router-link :to="{}" class="text-white text-decoration-none"> Vender</router-link>
+      </CButton>
     </div>
-    <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-      <CButton color="secondary" class="my-2">Editar</CButton>
+    <div class="col-12 col-sm-4 col-md-2 col-lg-3">
+      <CButton color="secondary">
+        <router-link
+          :to="{ name: 'VehicleAddEdit', params: { id: vehicle.id } }"
+          class="text-white text-decoration-none"
+        >
+          Editar
+        </router-link>
+      </CButton>
     </div>
   </div>
 </template>
