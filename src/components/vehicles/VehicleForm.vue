@@ -7,6 +7,7 @@ import {
   cilCalendarCheck,
   cilPaint,
   cilSettings,
+  cilDescription,
   cilDollar,
   cilSpeedometer,
   cilTrash,
@@ -257,7 +258,7 @@ const removeFile = (index) => {
       <div class="col-12 col-lg-4 col-md-6 col-sm-12">
         <CInputGroup class="mb-3">
           <CInputGroupText id="basic-addon1">
-            <CIcon :icon="cilPaint" />
+            <CIcon :icon="cilDescription" />
           </CInputGroupText>
           <CFormTextarea
             required

@@ -3,8 +3,8 @@ import { reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import api from '@/services/api.js';
 import ErrorMessage from '@/components/ErrorMessage.vue';
-import ConfirmDeleteModal from '../../components/ConfirmDeleteModal.vue';
-import VehicleForm from '../../components/vehicles/VehicleForm.vue';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
+import VehicleForm from '@/components/vehicles/VehicleForm.vue';
 
 const error = ref(false);
 const errorMessage = ref('');
@@ -144,21 +144,6 @@ const showError = (message) => {
 
 const prepareFormData = () => {
   const formData = new FormData();
-  /*formData.append(
-    'vehicle',
-    JSON.stringify({
-      model: vehicle.model,
-      chassisNumber: vehicle.chassisNumber,
-      plate: vehicle.plate,
-      brandId: vehicle.brand.id,
-      year: vehicle.year,
-      categoryId: vehicle.category.id,
-      transmissionType: vehicle.transmissionType,
-      status: vehicle.status,
-      value: vehicle.value,
-      odometerValue: vehicle.odometerValue,
-    }),
-  );*/
   formData.append('model', vehicle.model);
   formData.append('chassisNumber', vehicle.chassisNumber);
   formData.append('plate', vehicle.plate);
@@ -171,7 +156,7 @@ const prepareFormData = () => {
   formData.append('value', vehicle.value);
   formData.append('odometerValue', vehicle.odometerValue);
   vehicle.photos.forEach((photo) => {
-    formData.append('files', photo);
+    formData.append('files', photo.file);
   });
   formData.append('description', vehicle.description);
   return formData;
