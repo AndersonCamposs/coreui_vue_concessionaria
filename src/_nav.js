@@ -87,6 +87,11 @@ export default [
         name: 'Listar todos',
         to: '/vehicle/list',
       },
+      {
+        component: 'CNavItem',
+        name: 'Alterar Status',
+        to: '/vehicle/editStatus/',
+      },
     ],
   },
   {

@@ -106,6 +106,11 @@ const routes = [
             name: 'VehicleDetails',
             component: () => import('@/views/vehicles/VehicleDetails.vue'),
           },
+          {
+            path: '/vehicle/editStatus',
+            name: 'VehicleEditStatus',
+            component: () => import('@/views/vehicles/VehicleStatusEdit.vue'),
+          },
         ],
       },
       {
