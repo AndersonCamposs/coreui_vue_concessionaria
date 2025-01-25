@@ -1,10 +1,16 @@
 <script setup>
-import { cilCalendar, cilPencil, cilSettings, cilSpeedometer } from '@coreui/icons';
+import { cilCalendar, cilSettings, cilSpeedometer } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CCarousel, CCarouselItem } from '@coreui/vue';
-import { defineProps, defineEmits, onMounted } from 'vue';
+import { defineProps } from 'vue';
 import numberFormatter from '@/utils/numberFormatter.js';
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+const statusOptions = {
+  AVAILABLE: 'Disponível',
+  MAINTENANCE: 'Manutenção',
+  SOLD: 'Vendido',
+};
 
 const props = defineProps({
   vehicle: {
@@ -26,7 +32,12 @@ const props = defineProps({
       </CCarouselItem>
     </CCarousel>
     <CCardBody>
-      <h5>{{ `${vehicle.brand.name} ${vehicle.model.toUpperCase()}` }}</h5>
+      <h5>
+        {{ `${vehicle.brand.name} ${vehicle.model.toUpperCase()}` }}
+        <span v-if="vehicle.status != 'AVAILABLE'" class="text-warning">
+          ({{ statusOptions[vehicle.status] }})
+        </span>
+      </h5>
       <p class="mt-4">
         <strong>R$ {{ numberFormatter(vehicle.value) }}</strong>
       </p>

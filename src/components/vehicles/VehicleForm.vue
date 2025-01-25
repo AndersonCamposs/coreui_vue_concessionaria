@@ -353,10 +353,20 @@ const removeFile = (index) => {
 
     <div class="row mb-3">
       <div class="col-3">
-        <CButton color="primary" type="submit" class="me-4">
+        <CButton
+          color="primary"
+          type="submit"
+          class="me-4"
+          :disabled="vehicle.id && vehicle.status != 'AVAILABLE'"
+        >
           {{ vehicle.id ? 'Atualizar' : 'Salvar' }}
         </CButton>
-        <CButton v-if="vehicle.id" color="danger" class="me-4" @click="$emit('showDeleteModal')"
+        <CButton
+          v-if="vehicle.id"
+          color="danger"
+          class="me-4"
+          @click="$emit('showDeleteModal')"
+          :disabled="vehicle.id && vehicle.status != 'AVAILABLE'"
           >Deletar</CButton
         >
       </div>
