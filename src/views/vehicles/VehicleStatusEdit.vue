@@ -2,12 +2,26 @@
 import EditStatusForm from '@/components/vehicles/EditStatusForm.vue';
 import ErrorMessage from '@/components/ErrorMessage.vue';
 import { onUpdated, ref } from 'vue';
+import api from '../../services/api';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const vehicle = ref(null);
 const error = ref(false);
 const errorMessage = ref('');
 
-const onSubmit = async (newStatus) => {};
+const onSubmit = async (newStatus) => {
+  try {
+    if (vehicle.value) {
+      const response = await api.patch(`/vehicle/${vehicle.value.id}`, JSON.stringify(newStatus));
+      alert('Status atualizado com sucesso.');
+      router.push({ name: 'VehicleList' });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const loadVehicleData = (foundedVehicle) => {
   vehicle.value = foundedVehicle;
