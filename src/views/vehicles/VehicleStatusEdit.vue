@@ -4,10 +4,12 @@ import ErrorMessage from '@/components/ErrorMessage.vue';
 import { onUpdated, ref } from 'vue';
 import api from '../../services/api';
 import { useRouter } from 'vue-router';
+import SuccessMessage from '../../components/SuccessMessage.vue';
 
 const router = useRouter();
 
 const vehicle = ref(null);
+const hasSuccess = ref(false);
 const error = ref(false);
 const errorMessage = ref('');
 
@@ -15,8 +17,7 @@ const onSubmit = async (newStatus) => {
   try {
     if (vehicle.value) {
       const response = await api.patch(`/vehicle/${vehicle.value.id}`, JSON.stringify(newStatus));
-      alert('Status atualizado com sucesso.');
-      router.push({ name: 'VehicleList' });
+      handleSuccess();
     }
   } catch (e) {
     console.log(e);
@@ -25,6 +26,20 @@ const onSubmit = async (newStatus) => {
 
 const loadVehicleData = (foundedVehicle) => {
   vehicle.value = foundedVehicle;
+};
+
+const handleSuccess = () => {
+  displaySuccessMessage(() => {
+    router.push({ name: 'VehicleList' });
+  });
+};
+
+const displaySuccessMessage = (callback) => {
+  hasSuccess.value = true;
+  setTimeout(() => {
+    hasSuccess.value = false;
+    if (callback) callback();
+  }, 3000);
 };
 
 const showError = (message) => {
@@ -50,4 +65,8 @@ const showError = (message) => {
     @on-submit="(newStatus) => onSubmit(newStatus)"
   />
   <ErrorMessage :message="errorMessage" v-if="error" />
+  <SuccessMessage
+    :message="'Status atualizado com sucesso, você será redirecionado'"
+    v-if="hasSuccess"
+  />
 </template>
