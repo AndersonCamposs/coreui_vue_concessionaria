@@ -42,8 +42,8 @@ watch(searchValue, async (newSearchValue) => {
         <CFormInput
           type="text"
           required
-          placeholder="Buscar por nome"
-          aria-label="Burcar por nome"
+          placeholder="Buscar"
+          aria-label="Burcar"
           aria-describedby="basic-addon1"
           v-model="searchValue"
         />
