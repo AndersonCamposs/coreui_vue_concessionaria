@@ -1,5 +1,12 @@
 <script setup>
-import { cilColorPalette, cilDollar, cilFlagAlt, cilSettings, cilSpeedometer } from '@coreui/icons';
+import {
+  cilClipboard,
+  cilColorPalette,
+  cilDollar,
+  cilFlagAlt,
+  cilSettings,
+  cilSpeedometer,
+} from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import numberFormatter from '@/utils/numberFormatter';
 import { CButton } from '@coreui/vue';
@@ -37,6 +44,10 @@ const props = defineProps({
     <div class="col-6 col-lg-4 col-md-3">
       <p class="m-0"><strong>Valor</strong></p>
       <CIcon :icon="cilDollar" /> {{ numberFormatter(vehicle.value) }}
+    </div>
+    <div class="col-6 col-lg-4 col-md-3">
+      <p class="m-0"><strong>Placa</strong></p>
+      <CIcon :icon="cilClipboard" /> {{ vehicle.plate }}
     </div>
   </div>
 

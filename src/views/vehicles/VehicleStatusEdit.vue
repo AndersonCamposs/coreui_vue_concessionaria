@@ -1,9 +1,17 @@
 <script setup>
 import EditStatusForm from '@/components/vehicles/EditStatusForm.vue';
 import ErrorMessage from '@/components/ErrorMessage.vue';
-import { ref } from 'vue';
+import { onUpdated, ref } from 'vue';
+
+const vehicle = ref(null);
 const error = ref(false);
 const errorMessage = ref('');
+
+const onSubmit = async (newStatus) => {};
+
+const loadVehicleData = (foundedVehicle) => {
+  vehicle.value = foundedVehicle;
+};
 
 const showError = (message) => {
   errorMessage.value = message;
@@ -17,8 +25,15 @@ const showError = (message) => {
 <template>
   <div class="mb-3">
     <h3 class="text-center">Busque pelo veículo que deseja atualizar</h3>
+    <h5 class="text-center text-primary" v-if="vehicle != null">
+      {{ `${vehicle.brand.name} ${vehicle.model}(${vehicle.year}) - Placa: ${vehicle.plate}` }}
+    </h5>
     <hr />
   </div>
-  <EditStatusForm @has-error="(message) => showError(message)" />
+  <EditStatusForm
+    @has-error="(message) => showError(message)"
+    @vehicle-finded="(foundedVehicle) => loadVehicleData(foundedVehicle)"
+    @on-submit="(newStatus) => onSubmit(newStatus)"
+  />
   <ErrorMessage :message="errorMessage" v-if="error" />
 </template>
