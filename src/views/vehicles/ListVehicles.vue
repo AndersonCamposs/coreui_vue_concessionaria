@@ -53,6 +53,33 @@ onMounted(async () => {
   }
 });
 
+const handleFilter = async () => {
+  const queryString = prepareQueryString();
+  console.log(queryString);
+};
+
+const prepareQueryString = () => {
+  const params = [];
+
+  if (searchValues.brand.searchValue) {
+    params.push(`brand=${searchValues.brand.searchValue}`);
+  }
+  if (searchValues.model.searchValue) {
+    params.push(`model=${searchValues.model.searchValue}`);
+  }
+  if (searchValues.year.searchValue) {
+    params.push(`year=${searchValues.year.searchValue}`);
+  }
+  if (searchValues.value.searchValue) {
+    params.push(`value=${searchValues.value.searchValue}`);
+  }
+  if (searchValues.category.searchValue) {
+    params.push(`category=${searchValues.category.searchValue}`);
+  }
+
+  return params.length === 0 ? '' : `?${params.join('&')}`;
+};
+
 // carrega o select do filtro de marcas
 watch(
   () => searchValues.brand.visible, // getter para a propridade reativa
@@ -146,7 +173,9 @@ watch(
                 </div>
 
                 <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
-                  <CButton color="primary"><CIcon :icon="cilSearch" /></CButton>
+                  <CButton color="primary" @click="handleFilter()"
+                    ><CIcon :icon="cilSearch"
+                  /></CButton>
                 </div>
                 <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
                   <CButton color="secondary"><CIcon :icon="cilTrash" /></CButton>
