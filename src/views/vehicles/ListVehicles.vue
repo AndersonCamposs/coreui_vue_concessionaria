@@ -46,12 +46,7 @@ const searchValues = reactive({
 });
 
 onMounted(async () => {
-  try {
-    const { data } = await api.get('/vehicle');
-    vehicleList.value = data;
-  } catch (e) {
-    console.log(e.message);
-  }
+  await fetchAllVehicles();
 });
 
 const handleFilter = async () => {
@@ -60,7 +55,7 @@ const handleFilter = async () => {
   try {
     if (queryString) {
       const { data } = await api.get(`/vehicle/filter${queryString}`);
-      console.log(data);
+      vehicleList.value = data;
     }
   } catch (e) {
     console.log(e);
@@ -87,6 +82,24 @@ const prepareQueryString = () => {
   }
 
   return params.length === 0 ? '' : `?${params.join('&')}`;
+};
+
+const onCleanFilters = async () => {
+  for (const key in searchValues) {
+    searchValues[key].searchValue = '';
+    searchValues[key].visible = false;
+  }
+
+  await fetchAllVehicles();
+};
+
+const fetchAllVehicles = async () => {
+  try {
+    const { data } = await api.get('/vehicle');
+    vehicleList.value = data;
+  } catch (e) {
+    console.log(e.message);
+  }
 };
 
 // carrega o select do filtro de marcas
@@ -130,7 +143,15 @@ watch(
               <CForm @submit.prevent="handleFilter()">
                 <div class="row">
                   <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
-                    <CFormCheck label="Marca" v-model="searchValues.brand.visible" />
+                    <CFormCheck
+                      label="Marca"
+                      v-model="searchValues.brand.visible"
+                      @change="
+                        (event) => {
+                          if (!event.target.checked) searchValues.brand.searchValue = '';
+                        }
+                      "
+                    />
                     <CFormSelect
                       v-if="searchValues.brand.visible"
                       v-model="searchValues.brand.searchValue"
@@ -143,7 +164,15 @@ watch(
                     </CFormSelect>
                   </div>
                   <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
-                    <CFormCheck label="Modelo" v-model="searchValues.model.visible" />
+                    <CFormCheck
+                      label="Modelo"
+                      v-model="searchValues.model.visible"
+                      @change="
+                        (event) => {
+                          if (!event.target.checked) searchValues.model.searchValue = '';
+                        }
+                      "
+                    />
                     <CFormInput
                       v-if="searchValues.model.visible"
                       v-model="searchValues.model.searchValue"
@@ -151,7 +180,15 @@ watch(
                     />
                   </div>
                   <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
-                    <CFormCheck label="Ano" v-model="searchValues.year.visible" />
+                    <CFormCheck
+                      label="Ano"
+                      v-model="searchValues.year.visible"
+                      @change="
+                        (event) => {
+                          if (!event.target.checked) searchValues.year.searchValue = '';
+                        }
+                      "
+                    />
                     <CFormInput
                       v-if="searchValues.year.visible"
                       v-model="searchValues.year.searchValue"
@@ -160,7 +197,15 @@ watch(
                     />
                   </div>
                   <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
-                    <CFormCheck label="Valor(máx.)" v-model="searchValues.value.visible" />
+                    <CFormCheck
+                      label="Valor(máx.)"
+                      v-model="searchValues.value.visible"
+                      @change="
+                        (event) => {
+                          if (!event.target.checked) searchValues.value.searchValue = '';
+                        }
+                      "
+                    />
                     <CFormInput
                       v-if="searchValues.value.visible"
                       v-model="searchValues.value.searchValue"
@@ -169,11 +214,21 @@ watch(
                     />
                   </div>
                   <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
-                    <CFormCheck label="Categoria" v-model="searchValues.category.visible" />
+                    <CFormCheck
+                      label="Categoria"
+                      v-model="searchValues.category.visible"
+                      @change="
+                        (event) => {
+                          if (!event.target.checked) searchValues.category.searchValue = '';
+                        }
+                      "
+                    />
                     <CFormSelect
                       v-if="searchValues.category.visible"
                       v-model="searchValues.category.searchValue"
+                      :required="searchValues.category.visible"
                     >
+                      <option value="" selected disabled>Selecione uma categoria</option>
                       <option
                         v-for="category in categoriesList"
                         :key="category.id"
@@ -188,7 +243,9 @@ watch(
                     <CButton type="submit" color="primary"><CIcon :icon="cilSearch" /></CButton>
                   </div>
                   <div class="col-6 col-lg-1 col-xl-1 col-xxl-1 col-md-2 col-sm-3">
-                    <CButton color="secondary"><CIcon :icon="cilTrash" /></CButton>
+                    <CButton color="secondary" @click="onCleanFilters">
+                      <CIcon :icon="cilTrash" />
+                    </CButton>
                   </div>
                 </div>
               </CForm>
@@ -199,7 +256,7 @@ watch(
     </div>
   </div>
   <CAlert color="warning" v-if="vehicleList.length === 0" class="text-center">
-    Não existem registros. Adicione novas marcas para que elas apareçam aqui.
+    Não existem registros. Adicione novos veículos para que eles apareçam aqui.
   </CAlert>
   <div v-else>
     <div class="row g-3">
