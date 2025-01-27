@@ -3,13 +3,14 @@ import { onMounted, reactive, ref, watch } from 'vue';
 import api from '@/services/api';
 import VehicleListItem from '../../components/vehicles/VehicleListItem.vue';
 import CIcon from '@coreui/icons-vue';
-import { cilArrowBottom, cilArrowTop, cilSearch } from '@coreui/icons';
+import { cilArrowBottom, cilArrowTop, cilSearch, cilTrash } from '@coreui/icons';
 import {
   CButton,
   CCard,
   CCardBody,
   CCollapse,
   CFormCheck,
+  CFormInput,
   CFormSelect,
   CInputGroup,
   CInputGroupText,
@@ -19,8 +20,25 @@ const filtersCollapseVisible = ref(false);
 
 const vehicleList = ref([]);
 const brandsList = ref([]);
+const categoriesList = ref([]);
 const searchValues = reactive({
   brand: {
+    searchValue: '',
+    visible: false,
+  },
+  model: {
+    searchValue: '',
+    visible: false,
+  },
+  year: {
+    searchValue: '',
+    visible: false,
+  },
+  value: {
+    searchValue: '',
+    visible: false,
+  },
+  category: {
     searchValue: '',
     visible: false,
   },
@@ -35,12 +53,25 @@ onMounted(async () => {
   }
 });
 
+// carrega o select do filtro de marcas
 watch(
   () => searchValues.brand.visible, // getter para a propridade reativa
   async () => {
     try {
       const { data } = await api.get('/brand');
       brandsList.value = data;
+    } catch (e) {
+      console.log(e.message);
+    }
+  },
+);
+// carrega o select do filtro de categorias
+watch(
+  () => searchValues.category.visible, // getter para a propridade reativa
+  async () => {
+    try {
+      const { data } = await api.get('/category');
+      categoriesList.value = data;
     } catch (e) {
       console.log(e.message);
     }
@@ -73,13 +104,52 @@ watch(
                   </CFormSelect>
                 </div>
                 <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Modelo" />
+                  <CFormCheck label="Modelo" v-model="searchValues.model.visible" />
+                  <CFormInput
+                    v-if="searchValues.model.visible"
+                    v-model="searchValues.model.searchValue"
+                    placeholder="Modelo"
+                  />
                 </div>
                 <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Ano" />
+                  <CFormCheck label="Ano" v-model="searchValues.year.visible" />
+                  <CFormInput
+                    v-if="searchValues.year.visible"
+                    v-model="searchValues.year.searchValue"
+                    type="number"
+                    placeholder="Ano do veículo"
+                  />
                 </div>
                 <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Valor" />
+                  <CFormCheck label="Valor(máx.)" v-model="searchValues.value.visible" />
+                  <CFormInput
+                    v-if="searchValues.value.visible"
+                    v-model="searchValues.value.searchValue"
+                    type="number"
+                    placeholder="Valor"
+                  />
+                </div>
+                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
+                  <CFormCheck label="Categoria" v-model="searchValues.category.visible" />
+                  <CFormSelect
+                    v-if="searchValues.category.visible"
+                    v-model="searchValues.category.searchValue"
+                  >
+                    <option
+                      v-for="category in categoriesList"
+                      :key="category.id"
+                      :value="category.id"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </CFormSelect>
+                </div>
+
+                <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
+                  <CButton color="primary"><CIcon :icon="cilSearch" /></CButton>
+                </div>
+                <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
+                  <CButton color="secondary"><CIcon :icon="cilTrash" /></CButton>
                 </div>
               </div>
             </CCardBody>
