@@ -9,6 +9,7 @@ import {
   CCard,
   CCardBody,
   CCollapse,
+  CForm,
   CFormCheck,
   CFormInput,
   CFormSelect,
@@ -55,7 +56,15 @@ onMounted(async () => {
 
 const handleFilter = async () => {
   const queryString = prepareQueryString();
-  console.log(queryString);
+
+  try {
+    if (queryString) {
+      const { data } = await api.get(`/vehicle/filter${queryString}`);
+      console.log(data);
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const prepareQueryString = () => {
@@ -114,73 +123,75 @@ watch(
         <CIcon :icon="filtersCollapseVisible ? cilArrowTop : cilArrowBottom" />
       </CButton>
       <div style="min-height: 5vh">
-        <CCollapse :visible="filtersCollapseVisible" class="mt-1" style="width: 80vw">
+        <CCollapse :visible="filtersCollapseVisible" class="mt-1" style="width: 75vw">
           <CCard>
             <CCardBody>
               Filtrar por:
-              <div class="row">
-                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Marca" v-model="searchValues.brand.visible" />
-                  <CFormSelect
-                    v-if="searchValues.brand.visible"
-                    v-model="searchValues.brand.searchValue"
-                  >
-                    <option v-for="brand in brandsList" :key="brand.id" :value="brand.id">
-                      {{ brand.name }}
-                    </option>
-                  </CFormSelect>
-                </div>
-                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Modelo" v-model="searchValues.model.visible" />
-                  <CFormInput
-                    v-if="searchValues.model.visible"
-                    v-model="searchValues.model.searchValue"
-                    placeholder="Modelo"
-                  />
-                </div>
-                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Ano" v-model="searchValues.year.visible" />
-                  <CFormInput
-                    v-if="searchValues.year.visible"
-                    v-model="searchValues.year.searchValue"
-                    type="number"
-                    placeholder="Ano do veículo"
-                  />
-                </div>
-                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Valor(máx.)" v-model="searchValues.value.visible" />
-                  <CFormInput
-                    v-if="searchValues.value.visible"
-                    v-model="searchValues.value.searchValue"
-                    type="number"
-                    placeholder="Valor"
-                  />
-                </div>
-                <div class="col-12 col-lg-2 col-xlg-2 col-md-4 col-sm-6">
-                  <CFormCheck label="Categoria" v-model="searchValues.category.visible" />
-                  <CFormSelect
-                    v-if="searchValues.category.visible"
-                    v-model="searchValues.category.searchValue"
-                  >
-                    <option
-                      v-for="category in categoriesList"
-                      :key="category.id"
-                      :value="category.id"
+              <CForm @submit.prevent="handleFilter()">
+                <div class="row">
+                  <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
+                    <CFormCheck label="Marca" v-model="searchValues.brand.visible" />
+                    <CFormSelect
+                      v-if="searchValues.brand.visible"
+                      v-model="searchValues.brand.searchValue"
+                      :required="searchValues.brand.visible"
                     >
-                      {{ category.name }}
-                    </option>
-                  </CFormSelect>
-                </div>
+                      <option value="" selected disabled>Selecione uma marca</option>
+                      <option v-for="brand in brandsList" :key="brand.id" :value="brand.id">
+                        {{ brand.name }}
+                      </option>
+                    </CFormSelect>
+                  </div>
+                  <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
+                    <CFormCheck label="Modelo" v-model="searchValues.model.visible" />
+                    <CFormInput
+                      v-if="searchValues.model.visible"
+                      v-model="searchValues.model.searchValue"
+                      placeholder="Modelo"
+                    />
+                  </div>
+                  <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
+                    <CFormCheck label="Ano" v-model="searchValues.year.visible" />
+                    <CFormInput
+                      v-if="searchValues.year.visible"
+                      v-model="searchValues.year.searchValue"
+                      type="number"
+                      placeholder="Ano do veículo"
+                    />
+                  </div>
+                  <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
+                    <CFormCheck label="Valor(máx.)" v-model="searchValues.value.visible" />
+                    <CFormInput
+                      v-if="searchValues.value.visible"
+                      v-model="searchValues.value.searchValue"
+                      type="number"
+                      placeholder="Valor"
+                    />
+                  </div>
+                  <div class="col-12 col-lg-2 col-xl-2 col-xxl-2 col-md-4 col-sm-6">
+                    <CFormCheck label="Categoria" v-model="searchValues.category.visible" />
+                    <CFormSelect
+                      v-if="searchValues.category.visible"
+                      v-model="searchValues.category.searchValue"
+                    >
+                      <option
+                        v-for="category in categoriesList"
+                        :key="category.id"
+                        :value="category.id"
+                      >
+                        {{ category.name }}
+                      </option>
+                    </CFormSelect>
+                  </div>
 
-                <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
-                  <CButton color="primary" @click="handleFilter()"
-                    ><CIcon :icon="cilSearch"
-                  /></CButton>
+                  <div class="col-6 col-lg-1 col-xl-1 col-xxl-1 col-md-2 col-sm-3">
+                    <CButton type="submit" color="primary"><CIcon :icon="cilSearch" /></CButton>
+                  </div>
+                  <div class="col-6 col-lg-1 col-xl-1 col-xxl-1 col-md-2 col-sm-3">
+                    <CButton color="secondary"><CIcon :icon="cilTrash" /></CButton>
+                  </div>
                 </div>
-                <div class="col-6 col-lg-1 col-xlg-1 col-md-2 col-sm-3">
-                  <CButton color="secondary"><CIcon :icon="cilTrash" /></CButton>
-                </div>
-              </div>
+              </CForm>
             </CCardBody>
           </CCard>
         </CCollapse>
