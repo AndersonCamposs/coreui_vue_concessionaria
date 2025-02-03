@@ -2,13 +2,23 @@ import { h, render, resolveComponent } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
+import { useAuthStore } from '../stores/auth';
 
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/pages/Login'),
+    meta: {
+      requiresAuth: false,
+    },
+  },
   {
     path: '/',
     name: 'Home',
     component: DefaultLayout,
     redirect: '/dashboard',
+    meta: { requiresAuth: true },
     children: [
       // MY ROUTES
       {
@@ -395,11 +405,6 @@ const routes = [
         component: () => import('@/views/pages/Page500'),
       },
       {
-        path: 'login',
-        name: 'Login',
-        component: () => import('@/views/pages/Login'),
-      },
-      {
         path: 'register',
         name: 'Register',
         component: () => import('@/views/pages/Register'),
@@ -415,6 +420,18 @@ const router = createRouter({
     // always scroll to top
     return { top: 0 };
   },
+});
+
+// middleware de autenticação
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.isAuthenticated;
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;
