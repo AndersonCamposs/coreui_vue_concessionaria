@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
         const { data } = await api.post('/auth/login', credentials);
         this.user = data.user; // armazena o usuáario autenticado no estado
       } catch (e) {
-        console.log('Erro ao realizar login: ', e.response?.data);
+        console.log('Erro ao realizar login: ', e.response);
       }
     },
 

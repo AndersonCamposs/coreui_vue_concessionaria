@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { useRouter } from 'vue-router';
+import { CCol, CFormCheck, CRow } from '@coreui/vue';
 
 const login = ref('');
 const password = ref('');
+const isPasswordVisible = ref(false);
 const isLoading = ref(false);
 const authStore = useAuthStore();
 const router = useRouter();
@@ -13,8 +15,7 @@ const onSubmit = async () => {
   isLoading.value = true;
 
   try {
-    const { data } = await authStore.login({ login: login.value, password: password.value });
-
+    await authStore.login({ login: login.value, password: password.value });
     router.push({ name: 'Home' });
   } catch (e) {
     console.log('Erro ao realizar o login: ', e);
@@ -41,17 +42,25 @@ const onSubmit = async () => {
                     </CInputGroupText>
                     <CFormInput placeholder="Login" autocomplete="Login" v-model="login" />
                   </CInputGroup>
-                  <CInputGroup class="mb-4">
+                  <CInputGroup class="mb-1">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
                     <CFormInput
-                      type="Senha"
+                      :type="isPasswordVisible ? 'text' : 'password'"
                       placeholder="Senha"
                       autocomplete="current-password"
                       v-model="password"
                     />
                   </CInputGroup>
+                  <CRow>
+                    <CCol :xs="6">
+                      <CFormCheck
+                        label="Ver senha"
+                        @change="isPasswordVisible = !isPasswordVisible"
+                      />
+                    </CCol>
+                  </CRow>
                   <CRow>
                     <CCol :xs="6">
                       <CButton color="primary" class="px-4" :disabled="isLoading" @click="onSubmit">

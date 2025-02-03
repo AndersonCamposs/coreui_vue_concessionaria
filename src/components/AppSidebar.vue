@@ -1,12 +1,25 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router';
 
-import { logo } from '@/assets/brand/logo'
-import { sygnet } from '@/assets/brand/sygnet'
-import { AppSidebarNav } from '@/components/AppSidebarNav.js'
-import { useSidebarStore } from '@/stores/sidebar.js'
+import { logo } from '@/assets/brand/logo';
+import { sygnet } from '@/assets/brand/sygnet';
+import { AppSidebarNav } from '@/components/AppSidebarNav.js';
+import { useSidebarStore } from '@/stores/sidebar.js';
+import { useAuthStore } from '../stores/auth';
 
-const sidebar = useSidebarStore()
+const sidebar = useSidebarStore();
+const authStore = useAuthStore();
+const router = useRouter();
+
+const onLogout = async () => {
+  try {
+    await authStore.logout();
+  } catch (e) {
+    console.log('Erro ao realizar o logout: ', e);
+  } finally {
+    router.push({ name: 'Login' });
+  }
+};
 </script>
 
 <template>
@@ -29,7 +42,7 @@ const sidebar = useSidebarStore()
     </CSidebarHeader>
     <AppSidebarNav />
     <CSidebarFooter class="border-top d-none d-lg-flex">
-      <CSidebarToggler @click="sidebar.toggleUnfoldable()" />
+      <CSidebarToggler @click="onLogout()" />
     </CSidebarFooter>
   </CSidebar>
 </template>
