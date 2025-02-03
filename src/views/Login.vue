@@ -8,34 +8,22 @@
               <CCardBody>
                 <CForm>
                   <h1>Login</h1>
-                  <p class="text-body-secondary">Sign In to your account</p>
+                  <p class="text-body-secondary">Entre na sua conta</p>
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput
-                      placeholder="Username"
-                      autocomplete="username"
-                    />
+                    <CFormInput placeholder="Login" autocomplete="Login" />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput
-                      type="password"
-                      placeholder="Password"
-                      autocomplete="current-password"
-                    />
+                    <CFormInput type="Senha" placeholder="Senha" autocomplete="current-password" />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
                       <CButton color="primary" class="px-4"> Login </CButton>
-                    </CCol>
-                    <CCol :xs="6" class="text-right">
-                      <CButton color="link" class="px-0">
-                        Forgot password?
-                      </CButton>
                     </CCol>
                   </CRow>
                 </CForm>
@@ -44,15 +32,11 @@
             <CCard class="text-white bg-primary py-5" style="width: 44%">
               <CCardBody class="text-center">
                 <div>
-                  <h2>Sign up</h2>
+                  <h2>Seja bem-vindo(a)</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Para acessar o sistema e todos os seus recursos. Ainda não tem sua conta? Entre
+                    em contato com a gerência.
                   </p>
-                  <CButton color="light" variant="outline" class="mt-3">
-                    Register Now!
-                  </CButton>
                 </div>
               </CCardBody>
             </CCard>
