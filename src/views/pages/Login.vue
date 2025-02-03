@@ -23,13 +23,13 @@
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary" class="px-4"> Login </CButton>
+                      <CButton color="primary" class="px-4"> Entrar </CButton>
                     </CCol>
                   </CRow>
                 </CForm>
               </CCardBody>
             </CCard>
-            <CCard class="text-white bg-primary py-5" style="width: 44%">
+            <CCard id="welcome-card" class="text-white bg-primary py-5" style="width: 44%">
               <CCardBody class="text-center">
                 <div>
                   <h2>Seja bem-vindo(a)</h2>
@@ -46,3 +46,11 @@
     </CContainer>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 580px) {
+  #welcome-card {
+    display: none;
+  }
+}
+</style>
