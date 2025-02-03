@@ -1,3 +1,29 @@
+<script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '../../stores/auth';
+import { useRouter } from 'vue-router';
+
+const login = ref('');
+const password = ref('');
+const isLoading = ref(false);
+const authStore = useAuthStore();
+const router = useRouter();
+
+const onSubmit = async () => {
+  isLoading.value = true;
+
+  try {
+    const { data } = await authStore.login({ login: login.value, password: password.value });
+
+    router.push({ name: 'Home' });
+  } catch (e) {
+    console.log('Erro ao realizar o login: ', e);
+  } finally {
+    isLoading.value = false;
+  }
+};
+</script>
+
 <template>
   <div class="wrapper min-vh-100 d-flex flex-row align-items-center">
     <CContainer>
@@ -13,17 +39,24 @@
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput placeholder="Login" autocomplete="Login" />
+                    <CFormInput placeholder="Login" autocomplete="Login" v-model="login" />
                   </CInputGroup>
                   <CInputGroup class="mb-4">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
-                    <CFormInput type="Senha" placeholder="Senha" autocomplete="current-password" />
+                    <CFormInput
+                      type="Senha"
+                      placeholder="Senha"
+                      autocomplete="current-password"
+                      v-model="password"
+                    />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary" class="px-4"> Entrar </CButton>
+                      <CButton color="primary" class="px-4" :disabled="isLoading" @click="onSubmit">
+                        Entrar
+                      </CButton>
                     </CCol>
                   </CRow>
                 </CForm>
