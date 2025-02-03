@@ -6,6 +6,10 @@ export const useAuthStore = defineStore('auth', {
     user: null, // armazena os dados do usuário autenticado
   }),
 
+  getters: {
+    isAuthenticated: (state) => !!state.user,
+  },
+
   actions: {
     async login(credentials) {
       try {
