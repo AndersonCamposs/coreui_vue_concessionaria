@@ -1,0 +1,1 @@
+<template>Vendas</template>

@@ -114,6 +114,23 @@ const routes = [
         ],
       },
       {
+        path: '/sale',
+        name: 'Sale',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/sale/add',
+        children: [
+          {
+            path: '/sale/add',
+            name: 'SaleAdd',
+            component: () => import('@/views/sales/AddSale.vue'),
+          },
+        ],
+      },
+      {
         path: '/dashboard',
         name: 'Dashboard',
         // route level code-splitting

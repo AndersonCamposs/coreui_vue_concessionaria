@@ -74,7 +74,7 @@ export default [
     /*COLLAPSE VEHICLES*/
     component: 'CNavGroup',
     name: 'Veículos',
-    to: '/category',
+    to: '/vehicle',
     icon: 'cil-car-alt',
     items: [
       {
@@ -91,6 +91,20 @@ export default [
         component: 'CNavItem',
         name: 'Alterar Status',
         to: '/vehicle/editStatus/',
+      },
+    ],
+  },
+  {
+    // COLLAPSE SALES
+    component: 'CNavGroup',
+    name: 'Vendas',
+    to: '/sale',
+    icon: 'cil-dollar',
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Nova venda',
+        to: '/sale/add',
       },
     ],
   },
