@@ -423,12 +423,16 @@ const router = createRouter({
 });
 
 // middleware de autenticação
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+  const user = await authStore.fetchUser();
+
   const isAuthenticated = authStore.isAuthenticated;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
+  } else if (to.name === 'Login') {
+    next('/');
   } else {
     next();
   }
