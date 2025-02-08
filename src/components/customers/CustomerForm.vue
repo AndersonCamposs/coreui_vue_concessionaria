@@ -3,6 +3,7 @@ import { defineProps, defineEmits } from 'vue';
 import { cilPencil, cilListNumbered, cilAt, cilCalendar } from '@coreui/icons';
 import CIcon from '@coreui/icons-vue';
 import { CButton, CForm, CInputGroup } from '@coreui/vue';
+import cpfFormatter from '@/utils/cpfFormatter.js';
 
 const emit = defineEmits(['showDeleteModal', 'onSubmit']);
 const props = defineProps({
@@ -12,16 +13,10 @@ const props = defineProps({
   },
 });
 
-const formatcpf = (event) => {
-  let value = event.target.value;
+const formatCpf = (event) => {
+  const newValue = cpfFormatter(event.target.value);
 
-  value = value.replace(/\D/g, '');
-
-  value = value.replace(/(\d{3})(\d)/, '$1.$2');
-  value = value.replace(/(\d{3})(\d)/, '$1.$2');
-  value = value.replace(/(\d{3})(\d{2})$/, '$1-$2');
-
-  event.target.value = value;
+  event.target.value = newValue;
 };
 </script>
 
@@ -52,7 +47,7 @@ const formatcpf = (event) => {
             aria-label="CPF"
             aria-describedby="basic-addon1"
             maxlength="14"
-            @input="(event) => formatcpf(event)"
+            @input="(event) => formatCpf(event)"
             v-model="customer.cpf"
             :disabled="customer.id != ''"
           />
