@@ -1,9 +1,14 @@
 <script setup>
 import { cilListNumbered, cilTag } from '@coreui/icons';
 import { reactive, ref } from 'vue';
+import ErrorMessage from '@/components/ErrorMessage.vue';
 import _ from 'lodash';
 import api from '@/services/api.js';
 import cpfFormatter from '@/utils/cpfFormatter.js';
+import numberFormatter from '@/utils/numberFormatter.js';
+
+const hasError = ref(false);
+const errorMessage = ref('');
 
 const customerCpf = ref('');
 const vehiclePlate = ref('');
@@ -46,16 +51,28 @@ const fetchCustomer = async () => {
     const { data } = await api.get(`/customer/search?cpf=${customerCpf.value}`);
     loadCustomerData(data);
   } catch (e) {
-    console.log(e);
+    const { message } = e.response.data;
+    showError(message);
   }
 };
 
 const fetchVehicle = async () => {
   try {
     const { data } = await api.get(`/vehicle/search?plate=${vehiclePlate.value}`);
+    if (data.status === 'SOLD') {
+      throw new Error('Ops! Este veículo está indisponível para venda.');
+    }
     loadVehicleData(data);
   } catch (e) {
-    console.log(e);
+    let message;
+    if (e.response) {
+      // if error was throwable by Axios
+      message = e.response.data;
+    } else {
+      message = e.message;
+    }
+
+    showError(message);
   }
 };
 
@@ -71,6 +88,14 @@ const formatCpf = (event) => {
   const newValue = cpfFormatter(event.target.value);
 
   event.target.value = newValue;
+};
+
+const showError = (message) => {
+  errorMessage.value = message;
+  hasError.value = true;
+  setTimeout(() => {
+    hasError.value = false;
+  }, 5000);
 };
 </script>
 
@@ -98,7 +123,9 @@ const formatCpf = (event) => {
         <CButton color="secondary" @click="fetchCustomer()">Buscar</CButton>
       </div>
     </div>
-    <CAlert color="warning" class="text-center"> Busque pelo cliente para realizar a venda </CAlert>
+    <CAlert color="warning" class="text-center" v-if="!hasError">
+      Busque pelo cliente para realizar a venda
+    </CAlert>
   </div>
   <div v-if="customer.id">
     <div class="row">
@@ -111,25 +138,48 @@ const formatCpf = (event) => {
       </div>
     </div>
     <hr />
-    <div class="row">
-      <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xlg-3">
-        <CInputGroup class="mb-3">
-          <CInputGroupText id="basic-addon1">
-            <CIcon :icon="cilTag" />
-          </CInputGroupText>
-          <CFormInput
-            type="text"
-            required
-            placeholder="Placa do veículo"
-            aria-label="Placa do veículo"
-            aria-describedby="basic-addon1"
-            v-model="vehiclePlate"
-          />
-        </CInputGroup>
+    <div v-if="!vehicle.id">
+      <div class="row">
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xlg-3">
+          <CInputGroup class="mb-3">
+            <CInputGroupText id="basic-addon1">
+              <CIcon :icon="cilTag" />
+            </CInputGroupText>
+            <CFormInput
+              type="text"
+              required
+              placeholder="Placa do veículo"
+              aria-label="Placa do veículo"
+              aria-describedby="basic-addon1"
+              v-model="vehiclePlate"
+            />
+          </CInputGroup>
+        </div>
+        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xlg-3">
+          <CButton color="secondary" @click="fetchVehicle()">Buscar</CButton>
+        </div>
       </div>
-      <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xlg-3">
-        <CButton color="secondary" @click="fetchVehicle()">Buscar</CButton>
+      <CAlert color="warning" class="text-center" v-if="!hasError">
+        Busque pelo veículo a ser vendido
+      </CAlert>
+    </div>
+    <div v-if="vehicle.id">
+      <h5>
+        Ótima escolha, o veículo a ser comprado é:
+        <span class="text-primary">{{ vehicle.brand.name }} {{ vehicle.model }}, </span>
+        ano <span class="text-primary">{{ vehicle.year }}</span> e placa
+        <span class="text-primary">{{ vehicle.plate }}</span
+        >, no valor de <span class="text-primary">R$ {{ numberFormatter(vehicle.value) }}</span
+        >.
+      </h5>
+      <hr />
+      <div class="row">
+        <div class="col-12 text-center">
+          <CButton color="primary">Confirmar venda</CButton>
+        </div>
       </div>
     </div>
   </div>
+
+  <ErrorMessage :message="errorMessage" v-if="hasError" />
 </template>
