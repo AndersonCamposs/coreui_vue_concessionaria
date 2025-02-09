@@ -6,7 +6,9 @@ import _ from 'lodash';
 import api from '@/services/api.js';
 import cpfFormatter from '@/utils/cpfFormatter.js';
 import numberFormatter from '@/utils/numberFormatter.js';
+import ConfirmPasswordModal from '../../components/ConfirmPasswordModal.vue';
 
+const showConfirmationModal = ref(false);
 const hasError = ref(false);
 const errorMessage = ref('');
 
@@ -82,6 +84,27 @@ const loadCustomerData = (data) => {
 
 const loadVehicleData = (data) => {
   _.merge(vehicle, data);
+};
+
+const resetVehicleData = () => {
+  clearReactiveObject(vehicle);
+};
+
+const clearReactiveObject = (object) => {
+  for (const key in object) {
+    if (Array.isArray(object[key])) {
+      object[key] = [];
+    } else if (typeof object[key] === 'object' && object[key] != null) {
+      clearReactiveObject(object[key]);
+    } else {
+      object[key] = '';
+    }
+  }
+};
+
+const checkUserPassword = async (password) => {
+  showConfirmationModal.value = false;
+  console.log(password);
 };
 
 const formatCpf = (event) => {
@@ -174,12 +197,22 @@ const showError = (message) => {
       </h5>
       <hr />
       <div class="row">
-        <div class="col-12 text-center">
-          <CButton color="primary">Confirmar venda</CButton>
+        <div class="container text-center">
+          <CButton color="primary" class="m-3" @click="showConfirmationModal = true"
+            >Confirmar venda</CButton
+          >
+          <CButton color="secondary" class="m-3" @click="resetVehicleData()">
+            Não era este veículo? Escolha novamente.
+          </CButton>
         </div>
       </div>
     </div>
   </div>
 
   <ErrorMessage :message="errorMessage" v-if="hasError" />
+  <ConfirmPasswordModal
+    :visible="showConfirmationModal"
+    @close="showConfirmationModal = false"
+    @confirm="(userPassword) => checkUserPassword(userPassword)"
+  />
 </template>
