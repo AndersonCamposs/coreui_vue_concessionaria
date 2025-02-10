@@ -14,7 +14,10 @@ const userPassword = ref('');
 
 const emit = defineEmits(['close', 'confirm']);
 
-const onConfirm = () => emit('confirm', userPassword);
+const onConfirm = () => {
+  emit('confirm', userPassword.value);
+  userPassword.value = '';
+};
 const onClose = () => emit('close');
 </script>
 
