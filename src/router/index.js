@@ -138,6 +138,11 @@ const routes = [
             name: 'SaleAdd',
             component: () => import('@/views/sales/AddSale.vue'),
           },
+          {
+            path: '/sale/list',
+            name: 'SaleList',
+            component: () => import('@/views/sales/ListSales.vue'),
+          },
         ],
       },
       {

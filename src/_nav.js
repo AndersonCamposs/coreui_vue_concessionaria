@@ -106,6 +106,11 @@ export default [
         name: 'Nova venda',
         to: '/sale/add',
       },
+      {
+        component: 'CNavItem',
+        name: 'Listar vendas',
+        to: '/sale/list',
+      },
     ],
   },
   {
