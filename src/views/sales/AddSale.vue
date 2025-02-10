@@ -7,13 +7,18 @@ import api from '@/services/api.js';
 import cpfFormatter from '@/utils/cpfFormatter.js';
 import numberFormatter from '@/utils/numberFormatter.js';
 import ConfirmPasswordModal from '../../components/ConfirmPasswordModal.vue';
+import { useRouter } from 'vue-router';
+import SuccessMessage from '../../components/SuccessMessage.vue';
 
 const showConfirmationModal = ref(false);
+const hasSuccess = ref('');
 const hasError = ref(false);
 const errorMessage = ref('');
 
 const customerCpf = ref('');
 const vehiclePlate = ref('');
+
+const router = useRouter();
 
 const customer = reactive({
   id: '',
@@ -69,7 +74,7 @@ const fetchVehicle = async () => {
     let message;
     if (e.response) {
       // if error was throwable by Axios
-      message = e.response.data;
+      message = e.response.data.message;
     } else {
       message = e.message;
     }
@@ -104,7 +109,34 @@ const clearReactiveObject = (object) => {
 
 const checkUserPassword = async (password) => {
   showConfirmationModal.value = false;
-  console.log(password);
+  try {
+    const { data } = await api.post(`/auth/verify-password?password=${password}`);
+    if (data) {
+      await registerSale();
+    }
+  } catch (e) {
+    const { message } = e.response.data;
+    showError(message);
+  }
+};
+
+const registerSale = async () => {
+  try {
+    const json = {
+      customer: {
+        id: customer.id,
+      },
+      vehicle: {
+        id: vehicle.id,
+      },
+    };
+
+    const { data } = await api.post('/sale', JSON.stringify(json));
+    handleSuccess();
+  } catch (e) {
+    const { message } = e.response.data;
+    showError(message);
+  }
 };
 
 const formatCpf = (event) => {
@@ -118,7 +150,22 @@ const showError = (message) => {
   hasError.value = true;
   setTimeout(() => {
     hasError.value = false;
+    errorMessage.value = '';
   }, 5000);
+};
+
+const handleSuccess = () => {
+  displaySuccessMessage(() => {
+    router.push({ name: 'SaleList' });
+  });
+};
+
+const displaySuccessMessage = (callback) => {
+  hasSuccess.value = true;
+  setTimeout(() => {
+    hasSuccess.value = false;
+    if (callback) callback();
+  }, 3000);
 };
 </script>
 
@@ -210,6 +257,10 @@ const showError = (message) => {
   </div>
 
   <ErrorMessage :message="errorMessage" v-if="hasError" />
+  <SuccessMessage
+    :message="'Venda realizada com sucesso, você será redirecionado'"
+    v-if="hasSuccess"
+  />
   <ConfirmPasswordModal
     :visible="showConfirmationModal"
     @close="showConfirmationModal = false"
