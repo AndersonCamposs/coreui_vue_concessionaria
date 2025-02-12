@@ -1,3 +1,41 @@
+<script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '../../stores/auth';
+import { useRouter } from 'vue-router';
+import { CAlert, CCol, CFormCheck, CRow } from '@coreui/vue';
+
+const login = ref('');
+const password = ref('');
+const isPasswordVisible = ref(false);
+const isLoading = ref(false);
+const hasError = ref(false);
+const errorMessage = ref('');
+const authStore = useAuthStore();
+const router = useRouter();
+
+const onSubmit = async () => {
+  isLoading.value = true;
+
+  try {
+    await authStore.login({ login: login.value, password: password.value });
+    router.push({ name: 'Home' });
+  } catch (e) {
+    showError(e.message);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const showError = (message) => {
+  errorMessage.value = message;
+  hasError.value = true;
+  setTimeout(() => {
+    hasError.value = false;
+    errorMessage.value = '';
+  }, 5000);
+};
+</script>
+
 <template>
   <div class="wrapper min-vh-100 d-flex flex-row align-items-center">
     <CContainer>
@@ -8,51 +46,53 @@
               <CCardBody>
                 <CForm>
                   <h1>Login</h1>
-                  <p class="text-body-secondary">Sign In to your account</p>
+                  <p class="text-body-secondary">Entre na sua conta</p>
                   <CInputGroup class="mb-3">
                     <CInputGroupText>
                       <CIcon icon="cil-user" />
                     </CInputGroupText>
-                    <CFormInput
-                      placeholder="Username"
-                      autocomplete="username"
-                    />
+                    <CFormInput placeholder="Login" autocomplete="Login" v-model="login" />
                   </CInputGroup>
-                  <CInputGroup class="mb-4">
+                  <CInputGroup class="mb-1">
                     <CInputGroupText>
                       <CIcon icon="cil-lock-locked" />
                     </CInputGroupText>
                     <CFormInput
-                      type="password"
-                      placeholder="Password"
+                      :type="isPasswordVisible ? 'text' : 'password'"
+                      placeholder="Senha"
                       autocomplete="current-password"
+                      v-model="password"
                     />
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
-                      <CButton color="primary" class="px-4"> Login </CButton>
+                      <CFormCheck
+                        label="Ver senha"
+                        @change="isPasswordVisible = !isPasswordVisible"
+                      />
                     </CCol>
-                    <CCol :xs="6" class="text-right">
-                      <CButton color="link" class="px-0">
-                        Forgot password?
+                  </CRow>
+                  <CRow>
+                    <CCol :xs="6">
+                      <CButton color="primary" class="px-4" :disabled="isLoading" @click="onSubmit">
+                        Entrar
                       </CButton>
                     </CCol>
+                  </CRow>
+                  <CRow class="mt-3" v-if="hasError">
+                    <CAlert color="danger" class="text-center">{{ errorMessage }}</CAlert>
                   </CRow>
                 </CForm>
               </CCardBody>
             </CCard>
-            <CCard class="text-white bg-primary py-5" style="width: 44%">
+            <CCard id="welcome-card" class="text-white bg-primary py-5" style="width: 44%">
               <CCardBody class="text-center">
                 <div>
-                  <h2>Sign up</h2>
+                  <h2>Seja bem-vindo(a)</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                    Para acessar o sistema e todos os seus recursos. Ainda não tem sua conta? Entre
+                    em contato com a gerência.
                   </p>
-                  <CButton color="light" variant="outline" class="mt-3">
-                    Register Now!
-                  </CButton>
                 </div>
               </CCardBody>
             </CCard>
@@ -62,3 +102,11 @@
     </CContainer>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 580px) {
+  #welcome-card {
+    display: none;
+  }
+}
+</style>
