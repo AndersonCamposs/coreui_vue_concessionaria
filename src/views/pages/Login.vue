@@ -2,12 +2,14 @@
 import { ref } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { useRouter } from 'vue-router';
-import { CCol, CFormCheck, CRow } from '@coreui/vue';
+import { CAlert, CCol, CFormCheck, CRow } from '@coreui/vue';
 
 const login = ref('');
 const password = ref('');
 const isPasswordVisible = ref(false);
 const isLoading = ref(false);
+const hasError = ref(false);
+const errorMessage = ref('');
 const authStore = useAuthStore();
 const router = useRouter();
 
@@ -18,10 +20,19 @@ const onSubmit = async () => {
     await authStore.login({ login: login.value, password: password.value });
     router.push({ name: 'Home' });
   } catch (e) {
-    console.log('Erro ao realizar o login: ', e);
+    showError(e.message);
   } finally {
     isLoading.value = false;
   }
+};
+
+const showError = (message) => {
+  errorMessage.value = message;
+  hasError.value = true;
+  setTimeout(() => {
+    hasError.value = false;
+    errorMessage.value = '';
+  }, 5000);
 };
 </script>
 
@@ -67,6 +78,9 @@ const onSubmit = async () => {
                         Entrar
                       </CButton>
                     </CCol>
+                  </CRow>
+                  <CRow class="mt-3" v-if="hasError">
+                    <CAlert color="danger" class="text-center">{{ errorMessage }}</CAlert>
                   </CRow>
                 </CForm>
               </CCardBody>
