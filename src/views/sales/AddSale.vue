@@ -6,9 +6,10 @@ import _ from 'lodash';
 import api from '@/services/api.js';
 import cpfFormatter from '@/utils/cpfFormatter.js';
 import numberFormatter from '@/utils/numberFormatter.js';
-import ConfirmPasswordModal from '../../components/ConfirmPasswordModal.vue';
+import ConfirmPasswordModal from '@/components/ConfirmPasswordModal.vue';
 import { useRouter } from 'vue-router';
-import SuccessMessage from '../../components/SuccessMessage.vue';
+import SuccessMessage from '@/components/SuccessMessage.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const showConfirmationModal = ref(false);
 const hasSuccess = ref('');
@@ -121,8 +122,11 @@ const checkUserPassword = async (password) => {
 };
 
 const registerSale = async () => {
+  const authStore = useAuthStore();
   try {
     const json = {
+      value: vehicle.value,
+      user: authStore.user,
       customer: {
         id: customer.id,
       },

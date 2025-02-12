@@ -44,9 +44,7 @@ const props = defineProps({
           <CTableDataCell class="text-wrap">{{ sale.id }}</CTableDataCell>
           <CTableDataCell class="text-wrap">{{ sale.customer.cpf }}</CTableDataCell>
           <CTableDataCell class="text-wrap">{{ sale.vehicle.plate }}</CTableDataCell>
-          <CTableDataCell class="text-wrap">
-            R$ {{ numberFormatter(sale.vehicle.value) }}
-          </CTableDataCell>
+          <CTableDataCell class="text-wrap"> R$ {{ numberFormatter(sale.value) }} </CTableDataCell>
           <CTableDataCell class="text-wrap">{{ dateFormatter(sale.date) }}</CTableDataCell>
           <CTableDataCell>
             <CButton color="danger" @click="$emit('deleteSale', sale.id)">
