@@ -27,6 +27,28 @@ const onDelete = async () => {
   }
 };
 
+const emitReport = async (id) => {
+  try {
+    const sale = saleList.value.find((sale) => sale.id === id);
+    const { data } = await api.post('/report/confirmation-purchase', sale, {
+      responseType: 'blob',
+    });
+    downloadDocument(data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const downloadDocument = (data) => {
+  const url = window.URL.createObjectURL(data);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'confirmacao-compra.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
 const reloadSaleList = () => {
   saleList.value = saleList.value.filter((sale) => sale.id != deletedId.value);
 };
@@ -39,6 +61,11 @@ const reloadSaleList = () => {
       (id) => {
         deletedId = id;
         deleteModalVisible = true;
+      }
+    "
+    @emit-report="
+      (id) => {
+        emitReport(id);
       }
     "
   />
