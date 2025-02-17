@@ -90,8 +90,8 @@ const showError = (message) => {
                 <div>
                   <h2>Seja bem-vindo(a)</h2>
                   <p>
-                    Para acessar o sistema e todos os seus recursos. Ainda não tem sua conta? Entre
-                    em contato com a gerência.
+                    Faça login, para acessar o sistema e todos os seus recursos. Ainda não tem sua
+                    conta? Entre em contato com a gerência.
                   </p>
                 </div>
               </CCardBody>
