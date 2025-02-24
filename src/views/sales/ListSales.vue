@@ -21,10 +21,45 @@ const onDelete = async () => {
   deleteModalVisible.value = false;
   try {
     const response = await api.delete(`/sale/${deletedId.value}`);
+    await emitCancellationReport();
     reloadSaleList();
   } catch (e) {
     console.log(e);
   }
+};
+
+const emitConfirmationReport = async (id) => {
+  try {
+    const sale = saleList.value.find((sale) => sale.id === id);
+    const { data } = await api.post('/report/confirmation-purchase', sale, {
+      responseType: 'blob',
+    });
+    downloadDocument(data, 'confirmacao-compra.pdf');
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const emitCancellationReport = async () => {
+  try {
+    const sale = saleList.value.find((sale) => sale.id === deletedId.value);
+    const { data } = await api.post('/report/cancellation-purchase', sale, {
+      responseType: 'blob',
+    });
+    downloadDocument(data, 'cancelamento-compra.pdf');
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const downloadDocument = (data, downloadName) => {
+  const url = window.URL.createObjectURL(data);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = downloadName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 
 const reloadSaleList = () => {
@@ -39,6 +74,11 @@ const reloadSaleList = () => {
       (id) => {
         deletedId = id;
         deleteModalVisible = true;
+      }
+    "
+    @emit-confirmation-report="
+      (id) => {
+        emitConfirmationReport(id);
       }
     "
   />

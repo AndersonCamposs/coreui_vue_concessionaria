@@ -11,9 +11,9 @@ import {
 import CIcon from '@coreui/icons-vue';
 import dateFormatter from '@/utils/dateFormatter';
 import numberFormatter from '@/utils/numberFormatter';
-import { cilTrash } from '@coreui/icons';
+import { cilFile, cilTrash } from '@coreui/icons';
 
-const emit = defineEmits(['deleteSale']);
+const emit = defineEmits(['deleteSale', 'emitReport']);
 
 const props = defineProps({
   saleList: {
@@ -47,8 +47,21 @@ const props = defineProps({
           <CTableDataCell class="text-wrap"> R$ {{ numberFormatter(sale.value) }} </CTableDataCell>
           <CTableDataCell class="text-wrap">{{ dateFormatter(sale.date) }}</CTableDataCell>
           <CTableDataCell>
-            <CButton color="danger" @click="$emit('deleteSale', sale.id)">
+            <CButton
+              color="danger"
+              v-c-tooltip="'Excluir venda'"
+              class="mx-1"
+              @click="$emit('deleteSale', sale.id)"
+            >
               <CIcon :icon="cilTrash" />
+            </CButton>
+            <CButton
+              color="primary"
+              v-c-tooltip="'Emitir comprovante'"
+              class="mx-1"
+              @click="$emit('emitConfirmationReport', sale.id)"
+            >
+              <CIcon :icon="cilFile" />
             </CButton>
           </CTableDataCell>
         </CTableRow>
