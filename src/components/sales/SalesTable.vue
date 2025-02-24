@@ -59,7 +59,7 @@ const props = defineProps({
               color="primary"
               v-c-tooltip="'Emitir comprovante'"
               class="mx-1"
-              @click="$emit('emitReport', sale.id)"
+              @click="$emit('emitConfirmationReport', sale.id)"
             >
               <CIcon :icon="cilFile" />
             </CButton>
