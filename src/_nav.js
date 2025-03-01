@@ -24,7 +24,7 @@ export default [
       {
         component: 'CNavItem',
         name: 'Adicionar',
-        to: '/user/addEdit',
+        to: '/user/add',
       },
       {
         component: 'CNavItem',
