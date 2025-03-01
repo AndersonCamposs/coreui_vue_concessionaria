@@ -33,13 +33,13 @@ const routes = [
         redirect: '/user/addEdit',
         children: [
           {
-            path: '/user/addEdit/:id?',
-            name: 'UserAddEdit',
-            component: () => import('@/views/users/AddEditUser.vue'),
+            path: '/user/add/:id?',
+            name: 'UserAdd',
+            component: () => import('@/views/users/AddUser.vue'),
           },
           {
             path: '/user/list',
-            name: 'CustomerList',
+            name: 'UserList',
             component: () => import('@/views/users/ListUsers.vue'),
           },
         ],
