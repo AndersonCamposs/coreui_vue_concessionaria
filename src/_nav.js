@@ -19,6 +19,7 @@ export default [
     name: 'Usuários',
     to: '/user',
     icon: 'cil-user',
+    requiresAdmin: true,
     items: [
       {
         component: 'CNavItem',
