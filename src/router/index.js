@@ -31,6 +31,9 @@ const routes = [
           },
         },
         redirect: '/user/addEdit',
+        meta: {
+          requiresAdmin: true,
+        },
         children: [
           {
             path: '/user/add/:id?',
@@ -476,8 +479,9 @@ router.beforeEach(async (to, from, next) => {
   }
 
   const isAuthenticated = authStore.isAuthenticated;
-
-  if (isAuthenticated && to.name === 'Login') {
+  if (to.meta.requiresAdmin && authStore.user.role !== 'ADMIN') {
+    next({ name: 'Page404' });
+  } else if (isAuthenticated && to.name === 'Login') {
     next('/');
   } else if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
