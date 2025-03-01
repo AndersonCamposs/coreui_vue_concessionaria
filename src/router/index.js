@@ -22,6 +22,29 @@ const routes = [
     children: [
       // MY ROUTES
       {
+        // USERS
+        path: '/user',
+        name: 'User',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/user/addEdit',
+        children: [
+          {
+            path: '/user/addEdit/:id?',
+            name: 'UserAddEdit',
+            component: () => import('@/views/users/AddEditUser.vue'),
+          },
+          {
+            path: '/user/list',
+            name: 'CustomerList',
+            component: () => import('@/views/users/ListUsers.vue'),
+          },
+        ],
+      },
+      {
         // CUSTOMERS
         path: '/customer',
         name: 'Customer',
