@@ -1,3 +1,9 @@
+<script setup>
+import { cilHome } from '@coreui/icons';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+</script>
+
 <template>
   <div class="wrapper min-vh-100 d-flex flex-row align-items-center">
     <CContainer>
@@ -5,17 +11,23 @@
         <CCol :md="6">
           <div class="clearfix">
             <h1 class="float-start display-3 me-4">404</h1>
-            <h4 class="pt-3">Oops! You're lost.</h4>
+            <h4 class="pt-3">Oops! Parece que você se perdeu.</h4>
             <p class="text-body-secondary float-start">
-              The page you are looking for was not found.
+              A página que você está procurando parece não existir.
             </p>
           </div>
           <CInputGroup class="input-prepend">
             <CInputGroupText>
               <CIcon icon="cil-magnifying-glass" />
             </CInputGroupText>
-            <CFormInput type="text" placeholder="What are you looking for?" />
-            <CButton color="info">Search</CButton>
+            <CFormInput
+              type="text"
+              placeholder="Volte para a página inicial e continue sua navegação"
+              disabled
+            />
+            <CButton color="info">
+              <CIcon :icon="cilHome" @click="() => router.push({ name: 'Home' })" />
+            </CButton>
           </CInputGroup>
         </CCol>
       </CRow>
