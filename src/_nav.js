@@ -31,6 +31,11 @@ export default [
         name: 'Listar todos',
         to: '/user/list',
       },
+      {
+        component: 'CNavItem',
+        name: 'Editar senha',
+        to: '/user/passwordEdit',
+      },
     ],
   },
   {
