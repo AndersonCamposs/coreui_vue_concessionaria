@@ -1,5 +1,5 @@
 import { h, render, resolveComponent } from 'vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
 import { useAuthStore } from '../stores/auth';
@@ -36,7 +36,7 @@ const routes = [
         },
         children: [
           {
-            path: '/user/add/:id?',
+            path: '/user/add',
             name: 'UserAdd',
             component: () => import('@/views/users/AddUser.vue'),
           },
@@ -44,6 +44,11 @@ const routes = [
             path: '/user/list',
             name: 'UserList',
             component: () => import('@/views/users/ListUsers.vue'),
+          },
+          {
+            path: '/user/passwordEdit',
+            name: 'UserPasswordEdit',
+            component: () => import('@/views/users/PasswordEdit.vue'),
           },
         ],
       },
@@ -464,10 +469,15 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/pages/Page404'),
+  },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
   scrollBehavior() {
     // always scroll to top
