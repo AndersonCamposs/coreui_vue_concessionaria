@@ -443,6 +443,11 @@ const routes = [
     },
     children: [
       {
+        path: '403',
+        name: 'Page403',
+        component: () => import('@/views/pages/Page403'),
+      },
+      {
         path: '404',
         name: 'Page404',
         component: () => import('@/views/pages/Page404'),
@@ -480,7 +485,7 @@ router.beforeEach(async (to, from, next) => {
 
   const isAuthenticated = authStore.isAuthenticated;
   if (to.meta.requiresAdmin && authStore.user.role !== 'ADMIN') {
-    next({ name: 'Page404' });
+    next({ name: 'Page403' });
   } else if (isAuthenticated && to.name === 'Login') {
     next('/');
   } else if (to.meta.requiresAuth && !isAuthenticated) {
