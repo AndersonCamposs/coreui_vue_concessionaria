@@ -45,10 +45,22 @@ const routes = [
             name: 'UserList',
             component: () => import('@/views/users/ListUsers.vue'),
           },
+        ],
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/profile',
+        children: [
           {
-            path: '/user/passwordEdit',
-            name: 'UserPasswordEdit',
-            component: () => import('@/views/users/PasswordEdit.vue'),
+            path: '/profile/info',
+            name: 'ProfileInfo',
+            component: () => import('@/views/users/ProfileEdit'),
           },
         ],
       },
