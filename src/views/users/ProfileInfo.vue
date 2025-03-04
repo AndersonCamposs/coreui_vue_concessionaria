@@ -6,21 +6,23 @@ import { reactive, ref } from 'vue';
 import api from '@/services/api.js';
 import { useAuthStore } from '@/stores/auth';
 import _ from 'lodash';
+import EditLoginForm from '../../components/users/EditLoginForm.vue';
 
 const searchLogin = ref('');
+const showEditLoginForm = ref(false);
 
 const authStore = useAuthStore();
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row mb-2">
       <h4>
         Olá, <span class="text-info">{{ authStore.user.login }}</span
         >. Estas são as informações de seu perfil. O que deseja fazer?
       </h4>
     </div>
-    <div class="row">
+    <div class="row mb-4">
       <div class="col-12 col-sm-6 col-xl-4 col-xxl-4 my-2">
         <CWidgetStatsA color="primary" class="p-2">
           <template #value> Informações pessoais </template>
@@ -31,7 +33,9 @@ const authStore = useAuthStore();
                 <CIcon icon="cil-options" class="text-white" />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem href="#">Editar login</CDropdownItem>
+                <CDropdownItem @click="() => (showEditLoginForm = true)">
+                  Editar login
+                </CDropdownItem>
                 <CDropdownItem href="#">Editar senha</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
@@ -57,4 +61,5 @@ const authStore = useAuthStore();
       </div>
     </div>
   </div>
+  <EditLoginForm v-if="showEditLoginForm" @close-card="() => (showEditLoginForm = false)" />
 </template>
