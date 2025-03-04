@@ -60,7 +60,7 @@ const routes = [
           {
             path: '/profile/info',
             name: 'ProfileInfo',
-            component: () => import('@/views/users/ProfileEdit'),
+            component: () => import('@/views/users/ProfileInfo'),
           },
         ],
       },
