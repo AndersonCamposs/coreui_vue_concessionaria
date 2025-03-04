@@ -6,10 +6,10 @@ import { reactive, ref } from 'vue';
 import api from '@/services/api.js';
 import { useAuthStore } from '@/stores/auth';
 import _ from 'lodash';
-import EditLoginForm from '../../components/users/EditLoginForm.vue';
+import EditLoginOrPasswordForm from '@/components/users/EditLoginOrPasswordForm.vue';
 
-const searchLogin = ref('');
-const showEditLoginForm = ref(false);
+const showEditLoginOrPasswordForm = ref(false);
+const actuallyPropertyProfileEdit = ref('');
 
 const authStore = useAuthStore();
 </script>
@@ -33,10 +33,25 @@ const authStore = useAuthStore();
                 <CIcon icon="cil-options" class="text-white" />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem @click="() => (showEditLoginForm = true)">
+                <CDropdownItem
+                  @click="
+                    () => {
+                      showEditLoginOrPasswordForm = true;
+                      actuallyPropertyProfileEdit = 'LOGIN';
+                    }
+                  "
+                >
                   Editar login
                 </CDropdownItem>
-                <CDropdownItem href="#">Editar senha</CDropdownItem>
+                <CDropdownItem
+                  @click="
+                    () => {
+                      showEditLoginOrPasswordForm = true;
+                      actuallyPropertyProfileEdit = 'PASSWORD';
+                    }
+                  "
+                  >Editar senha</CDropdownItem
+                >
               </CDropdownMenu>
             </CDropdown>
           </template>
@@ -61,5 +76,14 @@ const authStore = useAuthStore();
       </div>
     </div>
   </div>
-  <EditLoginForm v-if="showEditLoginForm" @close-card="() => (showEditLoginForm = false)" />
+  <EditLoginOrPasswordForm
+    v-if="showEditLoginOrPasswordForm"
+    :actuallyPropertyProfileEdit="actuallyPropertyProfileEdit"
+    @close-card="
+      () => {
+        showEditLoginOrPasswordForm = false;
+        actuallyPropertyProfileEdit = '';
+      }
+    "
+  />
 </template>
