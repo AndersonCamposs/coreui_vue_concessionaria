@@ -33,14 +33,12 @@ const props = defineProps({
           <CTable striped>
             <CTableHead>
               <CTableRow>
-                <CTableHeaderCell>ID</CTableHeaderCell>
                 <CTableHeaderCell>Login</CTableHeaderCell>
                 <CTableHeaderCell>Ações</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
               <CTableRow v-for="user in userList" :key="user.id">
-                <CTableDataCell>{{ user.id }}</CTableDataCell>
                 <CTableDataCell>{{ user.login }}</CTableDataCell>
                 <CTableDataCell>
                   <CButton
