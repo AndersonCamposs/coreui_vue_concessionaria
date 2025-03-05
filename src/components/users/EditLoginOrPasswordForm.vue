@@ -17,7 +17,9 @@ import ErrorMessage from '../ErrorMessage.vue';
 import api from '@/services/api.js';
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const authStore = useAuthStore();
 const emit = defineEmits(['closeCard']);
 const props = defineProps({
@@ -30,6 +32,7 @@ const props = defineProps({
 const newPropertyValue = ref('');
 const confirmNewPropertyValue = ref('');
 const newPropertyAndConfirmNewPropertyAreEquals = ref(true);
+const isPasswordVisible = ref(false);
 const errorMessage = ref('');
 
 const onSubmit = async () => {
@@ -37,6 +40,7 @@ const onSubmit = async () => {
   try {
     const { data } = await api.patch(`/user/${authStore.user.id + queryString}`);
     await authStore.logout();
+    router.push({ name: 'Login' });
   } catch (e) {
     console.log(e);
   }
@@ -48,7 +52,7 @@ const checkPropertyValue = () => {
     errorMessage.value = '';
   } else {
     newPropertyAndConfirmNewPropertyAreEquals.value = false;
-    errorMessage.value = 'O login e a confirmação de login informados são diferentes.';
+    errorMessage.value = 'Os valor dos campos devem ser iguais.';
   }
 };
 </script>
@@ -76,7 +80,11 @@ const checkPropertyValue = () => {
                   <CIcon :icon="cilPencil" />
                 </CInputGroupText>
                 <CFormInput
-                  type="text"
+                  :type="
+                    actuallyPropertyProfileEdit === 'LOGIN' || isPasswordVisible
+                      ? 'text'
+                      : 'password'
+                  "
                   required
                   :placeholder="
                     actuallyPropertyProfileEdit === 'LOGIN' ? 'Novo login' : 'Nova senha'
@@ -96,7 +104,11 @@ const checkPropertyValue = () => {
                   <CIcon :icon="cilPencil" />
                 </CInputGroupText>
                 <CFormInput
-                  type="text"
+                  :type="
+                    actuallyPropertyProfileEdit === 'LOGIN' || isPasswordVisible
+                      ? 'text'
+                      : 'password'
+                  "
                   required
                   :placeholder="
                     actuallyPropertyProfileEdit === 'LOGIN'
@@ -123,10 +135,16 @@ const checkPropertyValue = () => {
               >
             </div>
           </div>
+          <div class="row mt-1" v-if="actuallyPropertyProfileEdit === 'PASSWORD'">
+            <div class="col-12 col-sm-4 col-md-4 col-xl-4">
+              <CFormCheck label="Exibir senhas" @change="isPasswordVisible = !isPasswordVisible" />
+            </div>
+          </div>
         </CForm>
         <ErrorMessage
           v-if="!newPropertyAndConfirmNewPropertyAreEquals"
           :message="errorMessage"
+          :colWidth="6"
           class="mt-3"
         />
       </CCardBody>
