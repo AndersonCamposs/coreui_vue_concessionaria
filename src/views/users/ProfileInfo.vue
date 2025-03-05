@@ -18,7 +18,7 @@ const authStore = useAuthStore();
   <div class="container-fluid">
     <div class="row mb-2">
       <h4>
-        Olá, <span class="text-info">{{ authStore.user.login }}</span
+        Olá, <span class="text-info">{{ authStore.user && authStore.user.login }}</span
         >. Estas são as informações de seu perfil. O que deseja fazer?
       </h4>
     </div>
