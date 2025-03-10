@@ -7,9 +7,12 @@ import api from '@/services/api.js';
 import { useAuthStore } from '@/stores/auth';
 import _ from 'lodash';
 import EditLoginOrPasswordForm from '@/components/users/EditLoginOrPasswordForm.vue';
+import ProfileStatistics from '../../components/users/ProfileStatistics.vue';
 
 const showEditLoginOrPasswordForm = ref(false);
 const actuallyPropertyProfileEdit = ref('');
+
+const showProfileStatistics = ref(false);
 
 const authStore = useAuthStore();
 </script>
@@ -67,7 +70,9 @@ const authStore = useAuthStore();
                 <CIcon icon="cil-options" class="text-white" />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem href="#">Minhas vendas</CDropdownItem>
+                <CDropdownItem @click="() => (showProfileStatistics = true)"
+                  >Minhas vendas</CDropdownItem
+                >
                 <CDropdownItem href="#">Meus faturamentos</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
@@ -85,5 +90,9 @@ const authStore = useAuthStore();
         actuallyPropertyProfileEdit = '';
       }
     "
+  />
+  <ProfileStatistics
+    v-if="showProfileStatistics"
+    @close-card="() => (showProfileStatistics = false)"
   />
 </template>
