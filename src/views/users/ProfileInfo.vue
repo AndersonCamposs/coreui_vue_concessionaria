@@ -22,7 +22,7 @@ const authStore = useAuthStore();
     <div class="row mb-2">
       <h4>
         Olá, <span class="text-info">{{ authStore.user && authStore.user.login }}</span
-        >. Estas são as informações de seu perfil. O que deseja fazer?
+        >. Aqui você acessa as informações de seu perfil. O que deseja fazer?
       </h4>
     </div>
     <div class="row mb-4">
@@ -41,6 +41,7 @@ const authStore = useAuthStore();
                     () => {
                       showEditLoginOrPasswordForm = true;
                       actuallyPropertyProfileEdit = 'LOGIN';
+                      showProfileStatistics = false;
                     }
                   "
                 >
@@ -51,6 +52,7 @@ const authStore = useAuthStore();
                     () => {
                       showEditLoginOrPasswordForm = true;
                       actuallyPropertyProfileEdit = 'PASSWORD';
+                      showProfileStatistics = false;
                     }
                   "
                   >Editar senha</CDropdownItem
@@ -70,7 +72,13 @@ const authStore = useAuthStore();
                 <CIcon icon="cil-options" class="text-white" />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem @click="() => (showProfileStatistics = true)"
+                <CDropdownItem
+                  @click="
+                    () => {
+                      showProfileStatistics = true;
+                      showEditLoginOrPasswordForm = false;
+                    }
+                  "
                   >Minhas vendas</CDropdownItem
                 >
                 <CDropdownItem href="#">Meus faturamentos</CDropdownItem>

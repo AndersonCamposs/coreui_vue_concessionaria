@@ -79,29 +79,35 @@ const prepareChartData = (data) => {
       chartData.value.push(0);
     }
   });
+  console.log(chartData);
 };
 </script>
 
 <template>
-  <CChart
-    type="bar"
-    style="height: 400px"
-    :data="{
-      labels: labels,
-      datasets: [
-        {
-          label: 'Total de vendas mensais (R$)',
-          data: chartData,
-        },
-      ],
-    }"
-    :options="{
-      scales: {
-        y: {
-          min: 0,
-          max: 500000,
-        },
-      },
-    }"
-  />
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <CChart
+        v-if="chartData.length !== 0"
+        type="bar"
+        style="width: 100%; height: 480px"
+        :data="{
+          labels: labels,
+          datasets: [
+            {
+              label: `Total de vendas mensais (R$) - ${new Date().getFullYear()}`,
+              data: chartData,
+            },
+          ],
+        }"
+        :options="{
+          scales: {
+            y: {
+              min: 0,
+              max: 500000,
+            },
+          },
+        }"
+      />
+    </div>
+  </div>
 </template>
