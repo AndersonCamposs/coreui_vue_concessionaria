@@ -1,5 +1,5 @@
 import { h, render, resolveComponent } from 'vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
 import { useAuthStore } from '../stores/auth';
@@ -21,6 +21,49 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       // MY ROUTES
+      {
+        // USERS
+        path: '/user',
+        name: 'User',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/user/addEdit',
+        meta: {
+          requiresAdmin: true,
+        },
+        children: [
+          {
+            path: '/user/add',
+            name: 'UserAdd',
+            component: () => import('@/views/users/AddUser.vue'),
+          },
+          {
+            path: '/user/list',
+            name: 'UserList',
+            component: () => import('@/views/users/ListUsers.vue'),
+          },
+        ],
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: {
+          render() {
+            return h(resolveComponent('router-view'));
+          },
+        },
+        redirect: '/profile',
+        children: [
+          {
+            path: '/profile/info',
+            name: 'ProfileInfo',
+            component: () => import('@/views/users/ProfileInfo'),
+          },
+        ],
+      },
       {
         // CUSTOMERS
         path: '/customer',
@@ -417,6 +460,11 @@ const routes = [
     },
     children: [
       {
+        path: '403',
+        name: 'Page403',
+        component: () => import('@/views/pages/Page403'),
+      },
+      {
         path: '404',
         name: 'Page404',
         component: () => import('@/views/pages/Page404'),
@@ -433,10 +481,15 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/pages/Page404'),
+  },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
   scrollBehavior() {
     // always scroll to top
@@ -453,8 +506,9 @@ router.beforeEach(async (to, from, next) => {
   }
 
   const isAuthenticated = authStore.isAuthenticated;
-
-  if (isAuthenticated && to.name === 'Login') {
+  if (to.meta.requiresAdmin && authStore.user.role !== 'ADMIN') {
+    next({ name: 'Page403' });
+  } else if (isAuthenticated && to.name === 'Login') {
     next('/');
   } else if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { cilHome } from '@coreui/icons';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -10,10 +10,10 @@ const router = useRouter();
       <CRow class="justify-content-center">
         <CCol :md="6">
           <div class="clearfix">
-            <h1 class="float-start display-3 me-4">404</h1>
-            <h4 class="pt-3">Oops! Parece que você se perdeu.</h4>
+            <h1 class="float-start display-3 me-4">403</h1>
+            <h4 class="pt-3">Oops! Você não pode olhar aqui.</h4>
             <p class="text-body-secondary float-start">
-              A página que você está procurando parece não existir.
+              Provavelmente você não tem autorização para acessar este recurso.
             </p>
           </div>
           <CInputGroup class="input-prepend">

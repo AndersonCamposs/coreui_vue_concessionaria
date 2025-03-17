@@ -53,7 +53,9 @@ const onLogout = async () => {
       >
         Settings
       </CDropdownHeader>
-      <CDropdownItem> <CIcon icon="cil-user" /> Profile </CDropdownItem>
+      <CDropdownItem @click="() => router.push({ name: 'ProfileInfo' })">
+        <CIcon icon="cil-user" /> Perfil
+      </CDropdownItem>
       <CDropdownItem> <CIcon icon="cil-settings" /> Settings </CDropdownItem>
       <CDropdownItem>
         <CIcon icon="cil-dollar" /> Payments

@@ -6,11 +6,15 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  colWidth: {
+    type: Number,
+    required: false,
+  },
 });
 </script>
 <template>
   <div class="row d-flex justify-content-center">
-    <div class="col-4 text-center">
+    <div :class="colWidth ? `col-${colWidth} text-center` : `col-4 text-center`">
       <CAlert color="danger">{{ message }}</CAlert>
     </div>
   </div>

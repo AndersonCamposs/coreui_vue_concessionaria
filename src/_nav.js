@@ -14,6 +14,26 @@ export default [
     name: 'Menu',
   },
   {
+    // COLLAPSE USERS
+    component: 'CNavGroup',
+    name: 'Usuários',
+    to: '/user',
+    icon: 'cil-user',
+    requiresAdmin: true,
+    items: [
+      {
+        component: 'CNavItem',
+        name: 'Adicionar',
+        to: '/user/add',
+      },
+      {
+        component: 'CNavItem',
+        name: 'Listar todos',
+        to: '/user/list',
+      },
+    ],
+  },
+  {
     /*COLLAPSE CUSTOMERS*/
     component: 'CNavGroup',
     name: 'Clientes',
