@@ -12,6 +12,7 @@ import {
   CInputGroup,
   CInputGroupText,
   CForm,
+  CAlert,
 } from '@coreui/vue';
 import ErrorMessage from '../ErrorMessage.vue';
 import api from '@/services/api.js';
@@ -147,6 +148,9 @@ const checkPropertyValue = () => {
           :colWidth="6"
           class="mt-3"
         />
+        <CAlert color="warning text-center" class="mt-2">
+          Ao salvar as informações, você será levado a fazer login novamente.
+        </CAlert>
       </CCardBody>
     </CCard>
   </div>
