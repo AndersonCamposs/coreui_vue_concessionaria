@@ -63,7 +63,7 @@ const chartData = ref([]);
 
 onMounted(async () => {
   try {
-    const { data } = await api.get('/statistic/user/sales/amount');
+    const { data } = await api.get('/statistic/user/sales/monthly-amount');
     prepareChartData(data);
   } catch (e) {
     console.log(e);
@@ -79,7 +79,6 @@ const prepareChartData = (data) => {
       chartData.value.push(0);
     }
   });
-  console.log(chartData);
 };
 </script>
 
@@ -94,7 +93,7 @@ const prepareChartData = (data) => {
           labels: labels,
           datasets: [
             {
-              label: `Total de vendas mensais (R$) - ${new Date().getFullYear()}`,
+              label: 'Total em R$',
               data: chartData,
             },
           ],
@@ -103,7 +102,7 @@ const prepareChartData = (data) => {
           scales: {
             y: {
               min: 0,
-              max: 500000,
+              max: Math.max(...chartData) + 50000,
             },
           },
         }"
