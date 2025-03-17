@@ -13,6 +13,8 @@ const showEditLoginOrPasswordForm = ref(false);
 const actuallyPropertyProfileEdit = ref('');
 
 const showProfileStatistics = ref(false);
+const showMonthlyAmountChart = ref(false);
+const showMonthlyCountChart = ref(false);
 
 const authStore = useAuthStore();
 </script>
@@ -42,6 +44,8 @@ const authStore = useAuthStore();
                       showEditLoginOrPasswordForm = true;
                       actuallyPropertyProfileEdit = 'LOGIN';
                       showProfileStatistics = false;
+                      showMonthlyAmountChart = false;
+                      showMonthlyCountChart = false;
                     }
                   "
                 >
@@ -53,6 +57,8 @@ const authStore = useAuthStore();
                       showEditLoginOrPasswordForm = true;
                       actuallyPropertyProfileEdit = 'PASSWORD';
                       showProfileStatistics = false;
+                      showMonthlyAmountChart = false;
+                      showMonthlyCountChart = false;
                     }
                   "
                   >Editar senha</CDropdownItem
@@ -77,11 +83,21 @@ const authStore = useAuthStore();
                     () => {
                       showProfileStatistics = true;
                       showEditLoginOrPasswordForm = false;
+                      showMonthlyAmountChart = true;
+                      showMonthlyCountChart = false;
                     }
                   "
-                  >Minhas vendas</CDropdownItem
+                  >Faturamento mensal</CDropdownItem
                 >
-                <CDropdownItem href="#">Meus faturamentos</CDropdownItem>
+                <CDropdownItem
+                  @click="
+                    showProfileStatistics = true;
+                    showEditLoginOrPasswordForm = false;
+                    showMonthlyAmountChart = false;
+                    showMonthlyCountChart = true;
+                  "
+                  >Contagem de vendas mensal</CDropdownItem
+                >
               </CDropdownMenu>
             </CDropdown>
           </template>
@@ -102,5 +118,7 @@ const authStore = useAuthStore();
   <ProfileStatistics
     v-if="showProfileStatistics"
     @close-card="() => (showProfileStatistics = false)"
+    :monthlyAmountChartIsVisible="showMonthlyAmountChart"
+    :monthlyCountChartIsVisible="showMonthlyCountChart"
   />
 </template>
